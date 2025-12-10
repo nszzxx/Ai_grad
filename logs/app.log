@@ -1,0 +1,707 @@
+2025-12-03 15:45:39 | INFO     | ai_server | =========================服务启动中..=========================
+2025-12-03 15:45:39 | INFO     | db | =========================初始化数据库=========================
+2025-12-03 15:45:39 | INFO     | mysql | =========================MYSQL=========================
+2025-12-03 15:45:39 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-03 15:45:39 | INFO     | mysql | MySQL 连接成功!
+2025-12-03 15:45:39 | INFO     | mysql | global_config 表数据:
+2025-12-03 15:45:39 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-03 15:45:39 | INFO     | mysql | =========================MYSQL=========================
+2025-12-03 15:45:39 | INFO     | redis | =========================REDIS=========================
+2025-12-03 15:45:39 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-03 15:45:41 | INFO     | redis | Redis 连接成功!
+2025-12-03 15:45:41 | INFO     | redis | =========================REDIS=========================
+2025-12-03 15:45:41 | INFO     | chroma | =========================CHROMA=========================
+2025-12-03 15:45:41 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-03 15:45:42 | INFO     | chroma | Chroma 初始化成功!
+2025-12-03 15:45:42 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\chroma_db
+2025-12-03 15:45:42 | INFO     | chroma | 已有集合数量: 1
+2025-12-03 15:45:42 | INFO     | chroma |   - default: 0 条记录
+2025-12-03 15:45:42 | INFO     | chroma | =========================CHROMA=========================
+2025-12-03 15:45:42 | INFO     | db | =========================数据库初始化完成=========================
+2025-12-03 15:45:42 | INFO     | db | None
+2025-12-03 15:45:42 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-03 15:45:42 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-03 15:45:42 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-03 15:45:44 | INFO     | llm_client | LLM 客户端初始化成功: model=glm-3-turbo, base_url=https://c-z0-api-01.hash070.com/v1
+2025-12-03 15:45:44 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-03 15:45:44 | INFO     | ai_server | =========================服务启动完成=========================
+2025-12-03 15:48:05 | INFO     | ai_server | 服务关闭中...
+2025-12-03 15:48:05 | INFO     | db | =========================关闭数据库=========================
+2025-12-03 15:48:05 | INFO     | db | None
+2025-12-03 15:48:05 | INFO     | mysql | MySQL 连接已关闭
+2025-12-03 15:48:05 | INFO     | redis | Redis 连接已关闭
+2025-12-03 15:48:05 | INFO     | chroma | Chroma 连接已关闭
+2025-12-03 15:48:05 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-03 15:48:05 | INFO     | db | None
+2025-12-03 15:48:14 | INFO     | ai_server | 服务启动中..
+2025-12-03 15:48:14 | INFO     | db | ==============================初始化数据库==============================
+2025-12-03 15:48:14 | INFO     | mysql | ====================MYSQL====================
+2025-12-03 15:48:14 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-03 15:48:14 | INFO     | mysql | MySQL 连接成功!
+2025-12-03 15:48:14 | INFO     | mysql | global_config 表数据:
+2025-12-03 15:48:14 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-03 15:48:14 | INFO     | mysql | ====================MYSQL====================
+2025-12-03 15:48:14 | INFO     | redis | ====================REDIS====================
+2025-12-03 15:48:14 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-03 15:48:16 | INFO     | redis | Redis 连接成功!
+2025-12-03 15:48:16 | INFO     | redis | ====================REDIS====================
+2025-12-03 15:48:16 | INFO     | chroma | ====================CHROMA====================
+2025-12-03 15:48:16 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-03 15:48:16 | INFO     | chroma | Chroma 初始化成功!
+2025-12-03 15:48:16 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\chroma_db
+2025-12-03 15:48:16 | INFO     | chroma | 已有集合数量: 1
+2025-12-03 15:48:16 | INFO     | chroma |   - default: 0 条记录
+2025-12-03 15:48:16 | INFO     | chroma | ====================CHROMA====================
+2025-12-03 15:48:16 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-03 15:48:16 | INFO     | db | None
+2025-12-03 15:48:16 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-03 15:48:16 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-03 15:48:16 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-03 15:48:18 | INFO     | llm_client | LLM 客户端初始化成功: model=glm-3-turbo, base_url=https://c-z0-api-01.hash070.com/v1
+2025-12-03 15:48:18 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-03 15:48:18 | INFO     | ai_server | 服务启动完成
+2025-12-03 15:48:45 | INFO     | api.chat | =========================CHAT REQUEST=========================
+2025-12-03 15:48:45 | INFO     | api.chat | 收到聊天请求: 你好
+2025-12-03 15:48:48 | INFO     | api.chat | 聊天请求处理成功: 你好👋！我是人工智能...
+2025-12-03 15:48:48 | INFO     | api.chat | =========================CHAT REQUEST=========================
+2025-12-03 15:58:07 | INFO     | ai_server | 服务关闭中...
+2025-12-03 15:58:07 | INFO     | db | =========================关闭数据库=========================
+2025-12-03 15:58:07 | INFO     | db | None
+2025-12-03 15:58:07 | INFO     | mysql | MySQL 连接已关闭
+2025-12-03 15:58:07 | INFO     | redis | Redis 连接已关闭
+2025-12-03 15:58:07 | INFO     | chroma | Chroma 连接已关闭
+2025-12-03 15:58:07 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-03 15:58:07 | INFO     | db | None
+2025-12-03 15:58:11 | INFO     | ai_server | 服务启动中..
+2025-12-03 15:58:11 | INFO     | db | ==============================初始化数据库==============================
+2025-12-03 15:58:11 | INFO     | mysql | ====================MYSQL====================
+2025-12-03 15:58:11 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-03 15:58:11 | INFO     | mysql | MySQL 连接成功!
+2025-12-03 15:58:11 | INFO     | mysql | global_config 表数据:
+2025-12-03 15:58:11 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-03 15:58:11 | INFO     | mysql | ====================MYSQL====================
+2025-12-03 15:58:11 | INFO     | redis | ====================REDIS====================
+2025-12-03 15:58:11 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-03 15:58:13 | INFO     | redis | Redis 连接成功!
+2025-12-03 15:58:13 | INFO     | redis | ====================REDIS====================
+2025-12-03 15:58:13 | INFO     | chroma | ====================CHROMA====================
+2025-12-03 15:58:13 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-03 15:58:13 | INFO     | chroma | Chroma 初始化成功!
+2025-12-03 15:58:13 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\chroma_db
+2025-12-03 15:58:13 | INFO     | chroma | 已有集合数量: 1
+2025-12-03 15:58:13 | INFO     | chroma |   - default: 0 条记录
+2025-12-03 15:58:13 | INFO     | chroma | ====================CHROMA====================
+2025-12-03 15:58:13 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-03 15:58:13 | INFO     | db | None
+2025-12-03 15:58:13 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-03 15:58:13 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-03 15:58:13 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-03 15:58:15 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-03 15:58:15 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-03 15:58:15 | INFO     | ai_server | 服务启动完成
+2025-12-03 17:12:13 | INFO     | ai_server | 服务关闭中...
+2025-12-03 17:12:13 | INFO     | db | =========================关闭数据库=========================
+2025-12-03 17:12:13 | INFO     | db | None
+2025-12-03 17:12:13 | INFO     | mysql | MySQL 连接已关闭
+2025-12-03 17:12:13 | INFO     | redis | Redis 连接已关闭
+2025-12-03 17:12:13 | INFO     | chroma | Chroma 连接已关闭
+2025-12-03 17:12:13 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-03 17:12:13 | INFO     | db | None
+2025-12-09 16:55:29 | INFO     | ai_server | 服务启动中..
+2025-12-09 16:55:29 | INFO     | db | ==============================初始化数据库==============================
+2025-12-09 16:55:29 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 16:55:29 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-09 16:55:29 | INFO     | mysql | MySQL 连接成功!
+2025-12-09 16:55:29 | INFO     | mysql | global_config 表数据:
+2025-12-09 16:55:29 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-09 16:55:29 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 16:55:29 | INFO     | redis | ====================REDIS====================
+2025-12-09 16:55:29 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-09 16:55:31 | INFO     | redis | Redis 连接成功!
+2025-12-09 16:55:31 | INFO     | redis | ====================REDIS====================
+2025-12-09 16:55:31 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 16:55:31 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-09 16:55:31 | INFO     | chroma | Chroma 初始化成功!
+2025-12-09 16:55:31 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-09 16:55:31 | INFO     | chroma | 已有集合数量: 0
+2025-12-09 16:55:31 | INFO     | chroma | 已创建默认集合: default
+2025-12-09 16:55:31 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 16:55:31 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-09 16:55:31 | INFO     | db | None
+2025-12-09 16:55:31 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 16:55:31 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-09 16:55:31 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-09 16:55:34 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-09 16:55:34 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 16:55:34 | INFO     | ai_server | 服务启动完成
+2025-12-09 16:56:26 | INFO     | ai_server | 服务关闭中...
+2025-12-09 16:56:26 | INFO     | db | =========================关闭数据库=========================
+2025-12-09 16:56:26 | INFO     | db | None
+2025-12-09 16:56:26 | INFO     | mysql | MySQL 连接已关闭
+2025-12-09 16:56:26 | INFO     | redis | Redis 连接已关闭
+2025-12-09 16:56:26 | INFO     | chroma | Chroma 连接已关闭
+2025-12-09 16:56:26 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-09 16:56:26 | INFO     | db | None
+2025-12-09 16:58:43 | INFO     | chroma | ./chroma_db
+2025-12-09 16:58:52 | INFO     | chroma | ./chroma_db
+2025-12-09 16:58:52 | INFO     | ai_server | 服务启动中..
+2025-12-09 16:58:52 | INFO     | db | ==============================初始化数据库==============================
+2025-12-09 16:58:52 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 16:58:52 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-09 16:58:52 | INFO     | mysql | MySQL 连接成功!
+2025-12-09 16:58:52 | INFO     | mysql | global_config 表数据:
+2025-12-09 16:58:52 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-09 16:58:52 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 16:58:52 | INFO     | redis | ====================REDIS====================
+2025-12-09 16:58:52 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-09 16:58:54 | INFO     | redis | Redis 连接成功!
+2025-12-09 16:58:54 | INFO     | redis | ====================REDIS====================
+2025-12-09 16:58:54 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 16:58:54 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-09 16:58:54 | INFO     | chroma | Chroma 初始化成功!
+2025-12-09 16:58:54 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-09 16:58:54 | INFO     | chroma | 已有集合数量: 1
+2025-12-09 16:58:54 | INFO     | chroma |   - default: 0 条记录
+2025-12-09 16:58:54 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 16:58:54 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-09 16:58:54 | INFO     | db | None
+2025-12-09 16:58:54 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 16:58:54 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-09 16:58:54 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-09 16:58:57 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-09 16:58:57 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 16:58:57 | INFO     | ai_server | 服务启动完成
+2025-12-09 17:08:33 | INFO     | ai_server | 服务关闭中...
+2025-12-09 17:08:33 | INFO     | db | =========================关闭数据库=========================
+2025-12-09 17:08:33 | INFO     | db | None
+2025-12-09 17:08:33 | INFO     | mysql | MySQL 连接已关闭
+2025-12-09 17:08:33 | INFO     | redis | Redis 连接已关闭
+2025-12-09 17:08:33 | INFO     | chroma | Chroma 连接已关闭
+2025-12-09 17:08:33 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-09 17:08:33 | INFO     | db | None
+2025-12-09 17:08:46 | INFO     | chroma | ./chroma_db
+2025-12-09 17:08:47 | INFO     | ai_server | 服务启动中..
+2025-12-09 17:08:47 | INFO     | db | ==============================初始化数据库==============================
+2025-12-09 17:08:47 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:08:47 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-09 17:08:47 | INFO     | mysql | MySQL 连接成功!
+2025-12-09 17:08:47 | INFO     | mysql | global_config 表数据:
+2025-12-09 17:08:47 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-09 17:08:47 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:08:47 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:08:47 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-09 17:08:49 | INFO     | redis | Redis 连接成功!
+2025-12-09 17:08:49 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:08:49 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:08:49 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-09 17:08:49 | INFO     | chroma | Chroma 初始化成功!
+2025-12-09 17:08:49 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-09 17:08:49 | INFO     | chroma | 已有集合数量: 1
+2025-12-09 17:08:49 | INFO     | chroma |   - default: 0 条记录
+2025-12-09 17:08:49 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:08:49 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-09 17:08:49 | INFO     | db | None
+2025-12-09 17:08:49 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:08:49 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-09 17:08:49 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-09 17:08:52 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-09 17:08:52 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:08:52 | INFO     | ai_server | 服务启动完成
+2025-12-09 17:11:14 | INFO     | ai_server | 服务关闭中...
+2025-12-09 17:11:14 | INFO     | db | =========================关闭数据库=========================
+2025-12-09 17:11:14 | INFO     | db | None
+2025-12-09 17:11:14 | INFO     | mysql | MySQL 连接已关闭
+2025-12-09 17:11:14 | INFO     | redis | Redis 连接已关闭
+2025-12-09 17:11:14 | INFO     | chroma | Chroma 连接已关闭
+2025-12-09 17:11:14 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-09 17:11:14 | INFO     | db | None
+2025-12-09 17:11:30 | INFO     | chroma | ./chroma_db
+2025-12-09 17:11:38 | INFO     | chroma | ./chroma_db
+2025-12-09 17:11:38 | INFO     | ai_server | 服务启动中..
+2025-12-09 17:11:38 | INFO     | db | ==============================初始化数据库==============================
+2025-12-09 17:11:38 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:11:38 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-09 17:11:38 | INFO     | mysql | MySQL 连接成功!
+2025-12-09 17:11:38 | INFO     | mysql | global_config 表数据:
+2025-12-09 17:11:38 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-09 17:11:38 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:11:38 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:11:38 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-09 17:11:40 | INFO     | redis | Redis 连接成功!
+2025-12-09 17:11:40 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:11:40 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:11:40 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-09 17:11:40 | INFO     | chroma | Chroma 初始化成功!
+2025-12-09 17:11:40 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-09 17:11:40 | INFO     | chroma | 已有集合数量: 1
+2025-12-09 17:11:40 | INFO     | chroma |   - default: 0 条记录
+2025-12-09 17:11:40 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:11:40 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-09 17:11:40 | INFO     | db | None
+2025-12-09 17:11:40 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:11:40 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-09 17:11:40 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-09 17:11:43 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-09 17:11:43 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:11:43 | INFO     | ai_server | 服务启动完成
+2025-12-09 17:12:00 | INFO     | ai_server | 服务关闭中...
+2025-12-09 17:12:00 | INFO     | db | =========================关闭数据库=========================
+2025-12-09 17:12:00 | INFO     | db | None
+2025-12-09 17:12:00 | INFO     | mysql | MySQL 连接已关闭
+2025-12-09 17:12:00 | INFO     | redis | Redis 连接已关闭
+2025-12-09 17:12:00 | INFO     | chroma | Chroma 连接已关闭
+2025-12-09 17:12:00 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-09 17:12:00 | INFO     | db | None
+2025-12-09 17:12:09 | INFO     | ai_server | 服务启动中..
+2025-12-09 17:12:09 | INFO     | db | ==============================初始化数据库==============================
+2025-12-09 17:12:09 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:12:09 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-09 17:12:09 | INFO     | mysql | MySQL 连接成功!
+2025-12-09 17:12:09 | INFO     | mysql | global_config 表数据:
+2025-12-09 17:12:09 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-09 17:12:09 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:12:09 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:12:09 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-09 17:12:11 | INFO     | redis | Redis 连接成功!
+2025-12-09 17:12:11 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:12:11 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:12:11 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-09 17:12:11 | INFO     | chroma | Chroma 初始化成功!
+2025-12-09 17:12:11 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-09 17:12:11 | INFO     | chroma | 已有集合数量: 1
+2025-12-09 17:12:11 | INFO     | chroma |   - default: 0 条记录
+2025-12-09 17:12:11 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:12:11 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-09 17:12:11 | INFO     | db | None
+2025-12-09 17:12:11 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:12:11 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-09 17:12:11 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-09 17:12:14 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-09 17:12:14 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:12:14 | INFO     | ai_server | 服务启动完成
+2025-12-09 17:14:51 | INFO     | ai_server | 服务关闭中...
+2025-12-09 17:14:51 | INFO     | db | =========================关闭数据库=========================
+2025-12-09 17:14:51 | INFO     | db | None
+2025-12-09 17:14:51 | INFO     | mysql | MySQL 连接已关闭
+2025-12-09 17:14:51 | INFO     | redis | Redis 连接已关闭
+2025-12-09 17:14:51 | INFO     | chroma | Chroma 连接已关闭
+2025-12-09 17:14:51 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-09 17:14:51 | INFO     | db | None
+2025-12-09 17:24:09 | INFO     | ai_server | 服务启动中..
+2025-12-09 17:24:09 | INFO     | db | ==============================初始化数据库==============================
+2025-12-09 17:24:09 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:24:09 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-09 17:24:09 | INFO     | mysql | MySQL 连接成功!
+2025-12-09 17:24:09 | INFO     | mysql | global_config 表数据:
+2025-12-09 17:24:09 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-09 17:24:09 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:24:09 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:24:09 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-09 17:24:11 | INFO     | redis | Redis 连接成功!
+2025-12-09 17:24:11 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:24:11 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:24:11 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-09 17:24:11 | INFO     | chroma | Chroma 初始化成功!
+2025-12-09 17:24:11 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-09 17:24:11 | INFO     | chroma | 已有集合数量: 1
+2025-12-09 17:24:11 | INFO     | chroma |   - default: 0 条记录
+2025-12-09 17:24:11 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:24:11 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-09 17:24:11 | INFO     | db | None
+2025-12-09 17:24:11 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:24:11 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-09 17:24:11 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-09 17:24:14 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-09 17:24:14 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:24:14 | INFO     | ai_server | 服务启动完成
+2025-12-09 17:25:33 | INFO     | chroma_service | 开始同步竞赛数据...
+2025-12-09 17:26:24 | ERROR    | chroma_api | 同步竞赛数据失败: The read operation timed out in upsert.
+2025-12-09 17:26:24 | INFO     | ai_server | 服务关闭中...
+2025-12-09 17:26:24 | INFO     | db | =========================关闭数据库=========================
+2025-12-09 17:26:24 | INFO     | db | None
+2025-12-09 17:26:24 | INFO     | mysql | MySQL 连接已关闭
+2025-12-09 17:26:24 | INFO     | redis | Redis 连接已关闭
+2025-12-09 17:26:24 | INFO     | chroma | Chroma 连接已关闭
+2025-12-09 17:26:24 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-09 17:26:24 | INFO     | db | None
+2025-12-09 17:26:47 | INFO     | ai_server | 服务启动中..
+2025-12-09 17:26:47 | INFO     | db | ==============================初始化数据库==============================
+2025-12-09 17:26:47 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:26:47 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-09 17:26:47 | INFO     | mysql | MySQL 连接成功!
+2025-12-09 17:26:47 | INFO     | mysql | global_config 表数据:
+2025-12-09 17:26:47 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-09 17:26:47 | INFO     | mysql | ====================MYSQL====================
+2025-12-09 17:26:47 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:26:47 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-09 17:26:49 | INFO     | redis | Redis 连接成功!
+2025-12-09 17:26:49 | INFO     | redis | ====================REDIS====================
+2025-12-09 17:26:49 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:26:49 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-09 17:26:49 | INFO     | chroma | Chroma 初始化成功!
+2025-12-09 17:26:49 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-09 17:26:49 | INFO     | chroma | 已有集合数量: 2
+2025-12-09 17:26:49 | INFO     | chroma |   - competition_matches: 0 条记录
+2025-12-09 17:26:49 | INFO     | chroma |   - default: 0 条记录
+2025-12-09 17:26:49 | INFO     | chroma | ====================CHROMA====================
+2025-12-09 17:26:49 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-09 17:26:49 | INFO     | db | None
+2025-12-09 17:26:49 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:26:49 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-09 17:26:49 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-09 17:26:53 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-09 17:26:53 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-09 17:26:53 | INFO     | ai_server | 服务启动完成
+2025-12-09 17:27:02 | INFO     | chroma_service | 开始同步竞赛数据...
+2025-12-10 09:33:20 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:33:20 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:33:20 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:33:20 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:33:24 | ERROR    | mysql | MySQL 连接失败: (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-12-10 09:34:22 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:34:22 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:34:22 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:34:22 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:34:22 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:34:22 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:34:22 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:34:22 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:34:22 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:34:22 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:34:24 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:34:24 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:34:24 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:34:24 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:34:24 | INFO     | chroma | 加载 Embedding 模型: ./models/m3e-base
+2025-12-10 09:34:24 | INFO     | chroma | 使用设备: cuda
+2025-12-10 09:34:30 | ERROR    | chroma | Chroma 初始化失败: Path ./models/m3e-base not found
+2025-12-10 09:35:48 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:35:48 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:35:48 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:35:48 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:35:48 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:35:48 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:35:48 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:35:48 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:35:48 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:35:48 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:35:50 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:35:50 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:35:50 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:35:50 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:35:50 | INFO     | chroma | 加载 Embedding 模型: /models/m3e-base
+2025-12-10 09:35:50 | INFO     | chroma | 使用设备: cuda
+2025-12-10 09:35:54 | ERROR    | chroma | Chroma 初始化失败: Path /models/m3e-base not found
+2025-12-10 09:36:48 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:36:48 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:36:48 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:36:48 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:36:48 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:36:48 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:36:48 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:36:48 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:36:48 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:36:48 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:36:50 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:36:50 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:36:50 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:36:50 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:36:50 | INFO     | chroma | 加载 Embedding 模型: ./app/models/m3e-base
+2025-12-10 09:36:50 | INFO     | chroma | 使用设备: cuda
+2025-12-10 09:36:53 | ERROR    | chroma | Chroma 初始化失败: Unrecognized model in ./app/models/m3e-base. Should have a `model_type` key in its config.json, or contain one of the following strings in its name: aimv2, aimv2_vision_model, albert, align, altclip, apertus, arcee, aria, aria_text, audio-spectrogram-transformer, autoformer, aya_vision, bamba, bark, bart, beit, bert, bert-generation, big_bird, bigbird_pegasus, biogpt, bit, bitnet, blenderbot, blenderbot-small, blip, blip-2, blip_2_qformer, bloom, blt, bridgetower, bros, camembert, canine, chameleon, chinese_clip, chinese_clip_vision_model, clap, clip, clip_text_model, clip_vision_model, clipseg, clvp, code_llama, codegen, cohere, cohere2, cohere2_vision, colpali, colqwen2, conditional_detr, convbert, convnext, convnextv2, cpmant, csm, ctrl, cvt, d_fine, dab-detr, dac, data2vec-audio, data2vec-text, data2vec-vision, dbrx, deberta, deberta-v2, decision_transformer, deepseek_v2, deepseek_v3, deepseek_vl, deepseek_vl_hybrid, deformable_detr, deit, depth_anything, depth_pro, deta, detr, dia, diffllama, dinat, dinov2, dinov2_with_registers, dinov3_convnext, dinov3_vit, distilbert, doge, donut-swin, dots1, dpr, dpt, edgetam, edgetam_video, edgetam_vision_model, efficientformer, efficientloftr, efficientnet, electra, emu3, encodec, encoder-decoder, eomt, ernie, ernie4_5, ernie4_5_moe, ernie_m, esm, evolla, exaone4, falcon, falcon_h1, falcon_mamba, fastspeech2_conformer, fastspeech2_conformer_with_hifigan, flaubert, flava, flex_olmo, florence2, fnet, focalnet, fsmt, funnel, fuyu, gemma, gemma2, gemma3, gemma3_text, gemma3n, gemma3n_audio, gemma3n_text, gemma3n_vision, git, glm, glm4, glm4_moe, glm4v, glm4v_moe, glm4v_moe_text, glm4v_text, glpn, got_ocr2, gpt-sw3, gpt2, gpt_bigcode, gpt_neo, gpt_neox, gpt_neox_japanese, gpt_oss, gptj, gptsan-japanese, granite, granite_speech, granitemoe, granitemoehybrid, granitemoeshared, granitevision, graphormer, grounding-dino, groupvit, helium, hgnet_v2, hiera, hubert, hunyuan_v1_dense, hunyuan_v1_moe, ibert, idefics, idefics2, idefics3, idefics3_vision, ijepa, imagegpt, informer, instructblip, instructblipvideo, internvl, internvl_vision, jamba, janus, jetmoe, jukebox, kosmos-2, kosmos-2.5, kyutai_speech_to_text, layoutlm, layoutlmv2, layoutlmv3, led, levit, lfm2, lfm2_vl, lightglue, lilt, llama, llama4, llama4_text, llava, llava_next, llava_next_video, llava_onevision, longcat_flash, longformer, longt5, luke, lxmert, m2m_100, mamba, mamba2, marian, markuplm, mask2former, maskformer, maskformer-swin, mbart, mctct, mega, megatron-bert, metaclip_2, mgp-str, mimi, minimax, ministral, mistral, mistral3, mixtral, mlcd, mllama, mm-grounding-dino, mobilebert, mobilenet_v1, mobilenet_v2, mobilevit, mobilevitv2, modernbert, modernbert-decoder, moonshine, moshi, mpnet, mpt, mra, mt5, musicgen, musicgen_melody, mvp, nat, nemotron, nezha, nllb-moe, nougat, nystromformer, olmo, olmo2, olmo3, olmoe, omdet-turbo, oneformer, open-llama, openai-gpt, opt, ovis2, owlv2, owlvit, paligemma, parakeet_ctc, parakeet_encoder, patchtsmixer, patchtst, pegasus, pegasus_x, perceiver, perception_encoder, perception_lm, persimmon, phi, phi3, phi4_multimodal, phimoe, pix2struct, pixtral, plbart, poolformer, pop2piano, prompt_depth_anything, prophetnet, pvt, pvt_v2, qdqbert, qwen2, qwen2_5_omni, qwen2_5_vl, qwen2_5_vl_text, qwen2_audio, qwen2_audio_encoder, qwen2_moe, qwen2_vl, qwen2_vl_text, qwen3, qwen3_moe, qwen3_next, qwen3_omni_moe, qwen3_vl, qwen3_vl_moe, qwen3_vl_moe_text, qwen3_vl_text, rag, realm, recurrent_gemma, reformer, regnet, rembert, resnet, retribert, roberta, roberta-prelayernorm, roc_bert, roformer, rt_detr, rt_detr_resnet, rt_detr_v2, rwkv, sam, sam2, sam2_hiera_det_model, sam2_video, sam2_vision_model, sam_hq, sam_hq_vision_model, sam_vision_model, seamless_m4t, seamless_m4t_v2, seed_oss, segformer, seggpt, sew, sew-d, shieldgemma2, siglip, siglip2, siglip2_vision_model, siglip_vision_model, smollm3, smolvlm, smolvlm_vision, speech-encoder-decoder, speech_to_text, speech_to_text_2, speecht5, splinter, squeezebert, stablelm, starcoder2, superglue, superpoint, swiftformer, swin, swin2sr, swinv2, switch_transformers, t5, t5gemma, table-transformer, tapas, textnet, time_series_transformer, timesfm, timesformer, timm_backbone, timm_wrapper, trajectory_transformer, transfo-xl, trocr, tvlt, tvp, udop, umt5, unispeech, unispeech-sat, univnet, upernet, van, vaultgemma, video_llava, videomae, vilt, vipllava, vision-encoder-decoder, vision-text-dual-encoder, visual_bert, vit, vit_hybrid, vit_mae, vit_msn, vitdet, vitmatte, vitpose, vitpose_backbone, vits, vivit, vjepa2, voxtral, voxtral_encoder, wav2vec2, wav2vec2-bert, wav2vec2-conformer, wavlm, whisper, xclip, xcodec, xglm, xlm, xlm-prophetnet, xlm-roberta, xlm-roberta-xl, xlnet, xlstm, xmod, yolos, yoso, zamba, zamba2, zoedepth
+2025-12-10 09:42:08 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:42:08 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:42:08 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:42:08 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:42:09 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:42:09 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:42:09 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:42:09 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:42:09 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:42:09 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:42:11 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:42:11 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:42:11 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:42:11 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:42:11 | ERROR    | chroma | Chroma 初始化失败: 'ChromaClient' object has no attribute '_model_path'
+2025-12-10 09:42:23 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:42:23 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:42:23 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:42:23 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:42:23 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:42:23 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:42:23 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:42:23 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:42:23 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:42:23 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:42:25 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:42:25 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:42:25 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:42:25 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:42:25 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 09:42:25 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\models
+2025-12-10 09:42:25 | INFO     | chroma | 使用设备: cuda
+2025-12-10 09:43:26 | ERROR    | chroma | Chroma 初始化失败: Torch not compiled with CUDA enabled
+2025-12-10 09:43:42 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:43:42 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:43:42 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:43:42 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:43:42 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:43:42 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:43:42 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:43:42 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:43:42 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:43:42 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:43:44 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:43:44 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:43:44 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:43:44 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:43:44 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 09:43:44 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\models
+2025-12-10 09:43:44 | INFO     | chroma | 使用设备: cuda
+2025-12-10 09:43:49 | ERROR    | chroma | Chroma 初始化失败: Torch not compiled with CUDA enabled
+2025-12-10 09:45:59 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:45:59 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:45:59 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:45:59 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:45:59 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:45:59 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:45:59 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:45:59 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:45:59 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:45:59 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:46:01 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:46:01 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:46:01 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:46:01 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:46:01 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 09:46:01 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 09:46:01 | INFO     | chroma | 使用设备: cuda
+2025-12-10 09:49:01 | INFO     | ai_server | 服务启动中..
+2025-12-10 09:49:01 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 09:49:01 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:49:01 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 09:49:01 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 09:49:01 | INFO     | mysql | global_config 表数据:
+2025-12-10 09:49:01 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 09:49:01 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 09:49:01 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:49:01 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 09:49:03 | INFO     | redis | Redis 连接成功!
+2025-12-10 09:49:03 | INFO     | redis | ====================REDIS====================
+2025-12-10 09:49:03 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 09:49:03 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 09:49:03 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 09:49:03 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 09:49:03 | INFO     | chroma | 使用设备: cuda
+2025-12-10 09:49:03 | INFO     | chroma | 模型未找到，开始从 HuggingFace 下载（首次下载需要一些时间）...
+2025-12-10 09:49:03 | INFO     | chroma | 下载进度将显示在控制台...
+2025-12-10 09:49:56 | ERROR    | chroma | Chroma 初始化失败: Torch not compiled with CUDA enabled
+2025-12-10 10:22:45 | INFO     | ai_server | 服务启动中..
+2025-12-10 10:22:45 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 10:22:45 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:22:45 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 10:22:45 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 10:22:45 | INFO     | mysql | global_config 表数据:
+2025-12-10 10:22:45 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 10:22:45 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:22:45 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:22:45 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 10:22:48 | INFO     | redis | Redis 连接成功!
+2025-12-10 10:22:48 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:22:48 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:22:48 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 10:22:48 | INFO     | chroma | 加载 Embedding 模型: m3e-base
+2025-12-10 10:22:48 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 10:22:48 | INFO     | chroma | 使用设备: cuda
+2025-12-10 10:22:48 | INFO     | chroma | 模型未找到，开始从 HuggingFace 下载（首次下载需要一些时间）...
+2025-12-10 10:22:49 | ERROR    | chroma | Chroma 初始化失败: sentence-transformers/m3e-base is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `hf auth login` or by passing `token=<your_token>`
+2025-12-10 10:25:41 | INFO     | ai_server | 服务启动中..
+2025-12-10 10:25:41 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 10:25:41 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:25:41 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 10:25:41 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 10:25:41 | INFO     | mysql | global_config 表数据:
+2025-12-10 10:25:41 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 10:25:41 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:25:41 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:25:41 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 10:25:43 | INFO     | redis | Redis 连接成功!
+2025-12-10 10:25:43 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:25:43 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:25:43 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 10:25:43 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 10:25:43 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 10:25:43 | INFO     | chroma | 使用设备: cpu
+2025-12-10 10:25:43 | INFO     | chroma | 模型未找到，开始从 HuggingFace 下载（首次下载需要一些时间）...
+2025-12-10 10:26:47 | INFO     | chroma | Embedding 模型加载成功!
+2025-12-10 10:26:48 | INFO     | chroma | Chroma 初始化成功!
+2025-12-10 10:26:48 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\app\chroma_db
+2025-12-10 10:26:48 | INFO     | chroma | 已有集合数量: 0
+2025-12-10 10:26:48 | INFO     | chroma | 已创建默认集合: default
+2025-12-10 10:26:48 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:26:48 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-10 10:26:48 | INFO     | db | None
+2025-12-10 10:26:48 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:26:48 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-10 10:26:48 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-10 10:26:50 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-10 10:26:50 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:26:50 | INFO     | ai_server | 服务启动完成
+2025-12-10 10:35:29 | INFO     | chroma_service | 开始同步竞赛数据...
+2025-12-10 10:35:30 | INFO     | chroma | 批量 upsert 完成: 新增 13, 更新 0
+2025-12-10 10:35:30 | INFO     | chroma_service | 竞赛数据同步完成: 总数 13, 新增 13, 更新 0
+2025-12-10 10:37:38 | INFO     | ai_server | 服务启动中..
+2025-12-10 10:37:38 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 10:37:38 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:37:38 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 10:37:38 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 10:37:38 | INFO     | mysql | global_config 表数据:
+2025-12-10 10:37:38 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 10:37:38 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:37:38 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:37:38 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 10:37:40 | INFO     | redis | Redis 连接成功!
+2025-12-10 10:37:40 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:37:40 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:37:40 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 10:37:40 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 10:37:40 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 10:37:40 | INFO     | chroma | 使用设备: cpu
+2025-12-10 10:37:40 | INFO     | chroma | 模型未找到，开始从 HuggingFace 下载（首次下载需要一些时间）...
+2025-12-10 10:39:31 | INFO     | ai_server | 服务启动中..
+2025-12-10 10:39:31 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 10:39:31 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:39:31 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 10:39:31 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 10:39:31 | INFO     | mysql | global_config 表数据:
+2025-12-10 10:39:31 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 10:39:31 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:39:31 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:39:31 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 10:39:33 | INFO     | redis | Redis 连接成功!
+2025-12-10 10:39:33 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:39:33 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:39:33 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 10:39:33 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 10:39:33 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 10:39:33 | INFO     | chroma | 使用设备: cpu
+2025-12-10 10:39:33 | INFO     | chroma | 模型未找到，开始从 HuggingFace 下载（首次下载需要一些时间）...
+2025-12-10 10:39:39 | INFO     | chroma | Embedding 模型加载成功!
+2025-12-10 10:39:39 | INFO     | chroma | Chroma 初始化成功!
+2025-12-10 10:39:39 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\app\chroma_db
+2025-12-10 10:39:39 | INFO     | chroma | 已有集合数量: 2
+2025-12-10 10:39:39 | INFO     | chroma |   - default: 0 条记录
+2025-12-10 10:39:39 | INFO     | chroma |   - competition_matches: 13 条记录
+2025-12-10 10:39:39 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:39:39 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-10 10:39:39 | INFO     | db | None
+2025-12-10 10:39:39 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:39:39 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-10 10:39:39 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-10 10:39:41 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-10 10:39:41 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:39:41 | INFO     | ai_server | 服务启动完成
+2025-12-10 10:40:34 | INFO     | chroma_service | 开始同步竞赛数据...
+2025-12-10 10:40:35 | INFO     | chroma | 批量 upsert 完成: 新增 0, 更新 13
+2025-12-10 10:40:35 | INFO     | chroma_service | 竞赛数据同步完成: 总数 13, 新增 0, 更新 13
+2025-12-10 10:40:35 | INFO     | ai_server | 服务关闭中...
+2025-12-10 10:40:35 | INFO     | db | =========================关闭数据库=========================
+2025-12-10 10:40:35 | INFO     | db | None
+2025-12-10 10:40:35 | INFO     | mysql | MySQL 连接已关闭
+2025-12-10 10:40:35 | INFO     | redis | Redis 连接已关闭
+2025-12-10 10:40:35 | INFO     | chroma | Chroma 连接已关闭
+2025-12-10 10:40:35 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-10 10:40:35 | INFO     | db | None
+2025-12-10 10:40:47 | INFO     | ai_server | 服务启动中..
+2025-12-10 10:40:47 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 10:40:47 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:40:47 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 10:40:47 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 10:40:48 | INFO     | mysql | global_config 表数据:
+2025-12-10 10:40:48 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 10:40:48 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:40:48 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:40:48 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 10:40:50 | INFO     | redis | Redis 连接成功!
+2025-12-10 10:40:50 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:40:50 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:40:50 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 10:40:50 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 10:40:50 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 10:40:50 | INFO     | chroma | 使用设备: cpu
+2025-12-10 10:40:57 | INFO     | chroma | Embedding 模型加载成功!
+2025-12-10 10:40:57 | INFO     | chroma | Chroma 初始化成功!
+2025-12-10 10:40:57 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\app\chroma_db
+2025-12-10 10:40:57 | INFO     | chroma | 已有集合数量: 2
+2025-12-10 10:40:57 | INFO     | chroma |   - default: 0 条记录
+2025-12-10 10:40:57 | INFO     | chroma |   - competition_matches: 13 条记录
+2025-12-10 10:40:57 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:40:57 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-10 10:40:57 | INFO     | db | None
+2025-12-10 10:40:57 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:40:57 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-10 10:40:57 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-10 10:40:59 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-10 10:40:59 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:40:59 | INFO     | ai_server | 服务启动完成
+2025-12-10 10:42:11 | INFO     | ai_server | 服务关闭中...
+2025-12-10 10:42:11 | INFO     | db | =========================关闭数据库=========================
+2025-12-10 10:42:11 | INFO     | db | None
+2025-12-10 10:42:11 | INFO     | mysql | MySQL 连接已关闭
+2025-12-10 10:42:11 | INFO     | redis | Redis 连接已关闭
+2025-12-10 10:42:11 | INFO     | chroma | Chroma 连接已关闭
+2025-12-10 10:42:11 | INFO     | db | =========================数据库连接已关闭=========================
+2025-12-10 10:42:11 | INFO     | db | None
+2025-12-10 10:42:46 | INFO     | ai_server | 服务启动中..
+2025-12-10 10:42:46 | INFO     | db | ==============================初始化数据库==============================
+2025-12-10 10:42:46 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:42:46 | INFO     | mysql | 正在初始化 MySQL 连接...
+2025-12-10 10:42:46 | INFO     | mysql | MySQL 连接成功!
+2025-12-10 10:42:46 | INFO     | mysql | global_config 表数据:
+2025-12-10 10:42:46 | INFO     | mysql |   - {'id': 2, 'config_key': 'AI_SERVICE_CONFIG', 'config_value': '{"service_name":"OnMyGpt","service_enabled":true,"base_url":"https://c-z0-api-01.hash070.com/v1","api_key":"sk-WS4GstHod4602E29315FT3BLBkFJ73e1Ac4c1e8145aBb005","model":"glm-3-turbo","max_tokens":"4000","temperature":"0.7","time_out":"3000"}', 'remark': 'AI服务商配置', 'create_time': datetime.datetime(2025, 10, 10, 14, 51, 26), 'update_time': datetime.datetime(2025, 11, 3, 15, 30, 2)}
+2025-12-10 10:42:46 | INFO     | mysql | ====================MYSQL====================
+2025-12-10 10:42:46 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:42:46 | INFO     | redis | 正在初始化 Redis 连接...
+2025-12-10 10:42:48 | INFO     | redis | Redis 连接成功!
+2025-12-10 10:42:48 | INFO     | redis | ====================REDIS====================
+2025-12-10 10:42:48 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:42:48 | INFO     | chroma | 正在初始化 Chroma 连接...
+2025-12-10 10:42:48 | INFO     | chroma | 加载 Embedding 模型: moka-ai/m3e-base
+2025-12-10 10:42:48 | INFO     | chroma | 模型缓存目录: H:\Workplace\graduate\ai_server\app\models\m3e-base
+2025-12-10 10:42:48 | INFO     | chroma | 使用设备: cpu
+2025-12-10 10:42:53 | INFO     | chroma | Embedding 模型加载成功!
+2025-12-10 10:42:53 | INFO     | chroma | Chroma 初始化成功!
+2025-12-10 10:42:53 | INFO     | chroma | 持久化目录: H:\Workplace\graduate\ai_server\app\db\chroma_db
+2025-12-10 10:42:53 | INFO     | chroma | 已有集合数量: 2
+2025-12-10 10:42:53 | INFO     | chroma |   - competition_matches: 0 条记录
+2025-12-10 10:42:53 | INFO     | chroma |   - default: 0 条记录
+2025-12-10 10:42:53 | INFO     | chroma | ====================CHROMA====================
+2025-12-10 10:42:53 | INFO     | db | ==============================数据库初始化完成==============================
+2025-12-10 10:42:53 | INFO     | db | None
+2025-12-10 10:42:53 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:42:53 | INFO     | llm_client | 正在初始化 LLM 客户端...
+2025-12-10 10:42:53 | INFO     | llm_client | 加载 AI 配置: service_name=OnMyGpt, model=glm-3-turbo
+2025-12-10 10:42:56 | INFO     | llm_client | LLM 客户端初始化成功! 使用模型: glm-3-turbo
+2025-12-10 10:42:56 | INFO     | llm_client | =========================LLM INIT=========================
+2025-12-10 10:42:56 | INFO     | ai_server | 服务启动完成
+2025-12-10 10:43:07 | INFO     | chroma_service | 开始同步竞赛数据...
+2025-12-10 10:43:08 | INFO     | chroma | 批量 upsert 完成: 新增 13, 更新 0
+2025-12-10 10:43:08 | INFO     | chroma_service | 竞赛数据同步完成: 总数 13, 新增 13, 更新 0
+2025-12-10 10:46:37 | INFO     | chroma_service | 开始同步竞赛数据...
+2025-12-10 10:46:37 | INFO     | chroma | 批量 upsert 完成: 新增 0, 更新 13
+2025-12-10 10:46:37 | INFO     | chroma_service | 竞赛数据同步完成: 总数 13, 新增 0, 更新 13
+2025-12-10 10:47:45 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=5
+2025-12-10 10:47:45 | DEBUG    | chroma_service | 搜索竞赛: query='蓝桥杯...', 返回 5 条结果
+2025-12-10 10:48:03 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=13
+2025-12-10 10:48:03 | DEBUG    | chroma_service | 搜索竞赛: query='蓝桥杯...', 返回 13 条结果
+2025-12-10 10:48:26 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯大赛..., n_results=13
+2025-12-10 10:48:26 | DEBUG    | chroma_service | 搜索竞赛: query='蓝桥杯大赛...', 返回 13 条结果
+2025-12-10 10:48:47 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯大赛-个人赛..., n_results=5
+2025-12-10 10:48:47 | DEBUG    | chroma_service | 搜索竞赛: query='蓝桥杯大赛-个人赛...', 返回 5 条结果
+2025-12-10 10:49:15 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯大赛-个人赛 软件赛..., n_results=5
+2025-12-10 10:49:15 | DEBUG    | chroma_service | 搜索竞赛: query='蓝桥杯大赛-个人赛 软件赛...', 返回 5 条结果
+2025-12-10 10:54:19 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯大赛-个人赛 软件赛..., n_results=2
+2025-12-10 10:54:19 | DEBUG    | chroma_service | 搜索竞赛: query='蓝桥杯大赛-个人赛 软件赛...', 返回 2 条结果
