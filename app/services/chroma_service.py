@@ -2,10 +2,14 @@
 Chroma 向量数据库服务层
 聚合业务逻辑：竞赛数据同步、向量搜索等功能
 """
-from typing import Optional
+import hashlib
+from typing import Optional, List, Tuple
 from app.db import chroma_client, mysql_client
+from app.db.chroma import TempVectorStore
 from app.core.logger import get_logger
 from app.models.sql_models import Competition
+from app.utils.document_parser import document_parser
+from app.utils.smart_splitter import SmartSectionSplitter
 
 logger = get_logger("chroma_service")
 
@@ -13,12 +17,24 @@ logger = get_logger("chroma_service")
 class ChromaService:
     """Chroma 向量数据库业务服务"""
 
-    # 默认集合名称
+    # 集合名称
     COLLECTION_COMPETITIONS = "competition_matches"
+    COLLECTION_RULES = "rules_documents"  # 竞赛规则文档
+    COLLECTION_SCORE_RULES = "score_rule_documents"  # 评分细则文档
+
+    # 智能切分配置
+    MAX_CHUNK_SIZE = 500
+    MIN_CHUNK_SIZE = 10
 
     def __init__(self):
         self._chroma = chroma_client
         self._mysql = mysql_client
+        # 初始化智能章节切分器（基于正则表达式识别章节标题）
+        self._text_splitter = SmartSectionSplitter(
+            max_chunk_size=self.MAX_CHUNK_SIZE,
+            min_chunk_size=self.MIN_CHUNK_SIZE,
+            enable_fallback=True  # 如果没有章节结构，使用固定长度切分
+        )
 
     # ==================== 竞赛数据同步 ====================
 
@@ -35,7 +51,11 @@ class ChromaService:
                 Competition.id,
                 Competition.title,
                 Competition.description,
-                Competition.category
+                Competition.category,
+                Competition.track,
+                Competition.tags,
+                Competition.difficulty,
+                Competition.rules_json
             ).all()
 
             if not results:
@@ -47,10 +67,18 @@ class ChromaService:
             ids = []
 
             for row in results:
-                comp_id, title, desc, category = row
-                content = f"比赛名称：{title}。类别：{category}。简介：{desc}"
+                comp_id, title, desc, category, track, tags, difficulty, rules_json = row
+                content = f"比赛名称：{title}。类别：{category}。赛道：{track}。简介：{desc}"
                 texts.append(content)
-                metadatas.append({"mysql_id": comp_id, "title": title, "category": category})
+                metadatas.append({
+                    "mysql_id": comp_id,
+                    "title": title,
+                    "category": category,
+                    "track": track,
+                    "tags": tags,          # 比如从 MySQL 的标签字段解析成列表
+                    "difficulty": difficulty,         # 初级/中级/高级
+                    "rules_json": rules_json          # JSON 化的规则信息
+                })
                 ids.append(str(comp_id))
 
             # 使用 upsert 批量同步（防重复）
@@ -139,7 +167,6 @@ class ChromaService:
             n_results=n_results,
             collection_name=self.COLLECTION_COMPETITIONS
         )
-
         competitions = []
         if results["ids"] and results["ids"][0]:
             for i, doc_id in enumerate(results["ids"][0]):
@@ -150,7 +177,7 @@ class ChromaService:
                     "distance": results["distances"][0][i] if results.get("distances") else None
                 })
 
-        logger.debug(f"搜索竞赛: query='{query[:30]}...', 返回 {len(competitions)} 条结果")
+        logger.info(f"搜索竞赛: query='{query[:30]}...', 返回 {len(competitions)} 条结果")
         return competitions
 
     # ==================== 文档管理（通用） ====================
@@ -274,6 +301,660 @@ class ChromaService:
         """获取所有集合的信息"""
         collections = self._chroma.list_collections()
         return [self.get_collection_info(name) for name in collections]
+
+    # ==================== 规则文档管理 ====================
+
+    @staticmethod
+    def _generate_doc_id(file_path: str) -> str:
+        """
+        根据文件路径生成唯一的文档ID
+        使用规范化路径的 MD5 哈希值
+        """
+        normalized_path = file_path.replace('\\', '/').lower()
+        return hashlib.md5(normalized_path.encode('utf-8')).hexdigest()
+
+    def _delete_document_chunks(self, parent_doc_id: str) -> int:
+        """
+        删除指定父文档的所有chunks
+
+        Args:
+            parent_doc_id: 父文档ID
+
+        Returns:
+            删除的chunk数量
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_RULES)
+
+            # 查询该父文档的所有chunks
+            result = collection.get(
+                where={"parent_doc_id": parent_doc_id},
+                include=[]  # 只需要ID
+            )
+
+            chunk_ids = result["ids"]
+
+            if chunk_ids:
+                collection.delete(ids=chunk_ids)
+                logger.debug(f"删除父文档 {parent_doc_id} 的 {len(chunk_ids)} 个chunks")
+                return len(chunk_ids)
+            else:
+                logger.debug(f"父文档 {parent_doc_id} 没有chunks")
+                return 0
+
+        except Exception as e:
+            logger.error(f"删除父文档chunks失败 {parent_doc_id}: {e}")
+            return 0
+
+    def add_rule_document(
+        self,
+        file_path: str,
+        competition_id: int,
+        custom_metadata: dict = None
+    ) -> dict:
+        """
+        添加规则文档并自动关联到竞赛（支持文档切分）
+
+        Args:
+            file_path: 文件路径（本地路径或HTTP URL）
+            competition_id: 竞赛ID
+            custom_metadata: 额外的自定义元数据
+
+        Returns:
+            {
+                'success': bool,
+                'action': 'inserted' | 'updated',
+                'doc_id': str,
+                'file_path': str,
+                'chunks_count': int,  # 切分后的chunk数量
+                'error': str (仅在失败时)
+            }
+        """
+        try:
+            logger.info(f"开始解析规则文档: {file_path}")
+
+            # 1. 解析文档
+            text, metadata = document_parser.parse_document(file_path)
+
+            # 2. 切分文档为多个chunks
+            chunks = self._text_splitter.split_text(text)
+            total_chunks = len(chunks)
+            logger.info(f"文档已切分为 {total_chunks} 个chunks")
+
+            # 3. 生成父文档ID
+            parent_doc_id = self._generate_doc_id(file_path)
+
+            # 4. 检查是否已存在（通过查询第一个chunk判断）
+            first_chunk_id = f"{parent_doc_id}_chunk_0"
+            existed = self._chroma.exists(first_chunk_id, self.COLLECTION_RULES)
+            action = "updated" if existed else "inserted"
+
+            # 5. 如果是更新，先删除所有旧的chunks
+            if existed:
+                logger.info(f"检测到文档已存在，删除旧的chunks")
+                self._delete_document_chunks(parent_doc_id)
+
+            # 6. 准备批量插入的数据
+            chunk_ids = []
+            chunk_texts = []
+            chunk_metadatas = []
+
+            for i, chunk_text in enumerate(chunks):
+                # 生成chunk ID
+                chunk_id = f"{parent_doc_id}_chunk_{i}"
+                chunk_ids.append(chunk_id)
+                chunk_texts.append(chunk_text)
+
+                # 构建chunk元数据
+                chunk_metadata = {
+                    'competition_id': competition_id,
+                    'parent_doc_id': parent_doc_id,
+                    'chunk_index': i,
+                    'total_chunks': total_chunks,
+                    **metadata  # 包含原始文档元数据
+                }
+
+                # 合并自定义元数据
+                if custom_metadata:
+                    chunk_metadata.update(custom_metadata)
+
+                chunk_metadatas.append(chunk_metadata)
+
+            # 7. 批量插入所有chunks
+            self._chroma.upsert_documents_batch(
+                ids=chunk_ids,
+                texts=chunk_texts,
+                metadatas=chunk_metadatas,
+                collection_name=self.COLLECTION_RULES
+            )
+
+            logger.info(f"规则文档添加成功: {file_path} ({action}, {total_chunks} chunks)")
+            return {
+                'success': True,
+                'action': action,
+                'doc_id': parent_doc_id,
+                'file_path': file_path,
+                'chunks_count': total_chunks
+            }
+
+        except Exception as e:
+            logger.error(f"添加规则文档失败 {file_path}: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'file_path': file_path
+            }
+
+    def add_rule_documents_batch(
+        self,
+        file_paths: List[str],
+        competition_id: int,
+        custom_metadata: dict = None
+    ) -> dict:
+        """
+        批量添加规则文档并关联到竞赛
+
+        Args:
+            file_paths: 文件路径列表
+            competition_id: 竞赛ID
+            custom_metadata: 额外的自定义元数据
+
+        Returns:
+            {
+                'total': int,
+                'success': int,
+                'inserted': int,
+                'updated': int,
+                'failed': int,
+                'results': [...]
+            }
+        """
+        logger.info(f"开始批量导入 {len(file_paths)} 个规则文档")
+
+        results = []
+        inserted_count = 0
+        updated_count = 0
+        failed_count = 0
+
+        for file_path in file_paths:
+            result = self.add_rule_document(
+                file_path=file_path,
+                competition_id=competition_id,
+                custom_metadata=custom_metadata
+            )
+            results.append(result)
+
+            if result['success']:
+                if result['action'] == 'inserted':
+                    inserted_count += 1
+                elif result['action'] == 'updated':
+                    updated_count += 1
+            else:
+                failed_count += 1
+
+        summary = {
+            'total': len(file_paths),
+            'success': inserted_count + updated_count,
+            'inserted': inserted_count,
+            'updated': updated_count,
+            'failed': failed_count,
+            'results': results
+        }
+
+        logger.info(
+            f"批量导入完成: 总数 {summary['total']}, "
+            f"成功 {summary['success']} (新增 {inserted_count}, 更新 {updated_count}), "
+            f"失败 {failed_count}"
+        )
+
+        return summary
+
+    def add_rule_documents_from_directory(
+        self,
+        directory_path: str,
+        competition_id: int,
+        recursive: bool = True,
+        custom_metadata: dict = None
+    ) -> dict:
+        """
+        从目录批量添加规则文档并关联到竞赛
+
+        Args:
+            directory_path: 目录路径
+            competition_id: 竞赛ID
+            recursive: 是否递归扫描
+            custom_metadata: 额外的自定义元数据
+
+        Returns:
+            {
+                'total': int,
+                'success': int,
+                'inserted': int,
+                'updated': int,
+                'failed': int,
+                'results': [...]
+            }
+        """
+        logger.info(f"开始从目录导入规则文档: {directory_path}")
+
+        try:
+            # 扫描目录获取所有支持的文档文件
+            file_paths = document_parser.scan_directory(directory_path, recursive=recursive)
+
+            if not file_paths:
+                logger.warning(f"目录中没有找到支持的文档文件: {directory_path}")
+                return {
+                    'total': 0,
+                    'success': 0,
+                    'inserted': 0,
+                    'updated': 0,
+                    'failed': 0,
+                    'results': []
+                }
+
+            # 批量处理文档
+            return self.add_rule_documents_batch(
+                file_paths=file_paths,
+                competition_id=competition_id,
+                custom_metadata=custom_metadata
+            )
+
+        except Exception as e:
+            logger.error(f"从目录导入规则文档失败 {directory_path}: {e}")
+            raise
+
+    def delete_rule_document_by_path(
+        self,
+        file_path: str
+    ) -> dict:
+        """
+        根据文件路径删除规则文档的所有chunks
+
+        Args:
+            file_path: 文件路径
+
+        Returns:
+            {
+                'success': bool,
+                'deleted': bool,
+                'chunks_deleted': int,  # 删除的chunk数量
+                'doc_id': str,
+                'file_path': str
+            }
+        """
+        try:
+            parent_doc_id = self._generate_doc_id(file_path)
+            chunks_deleted = self._delete_document_chunks(parent_doc_id)
+
+            if chunks_deleted > 0:
+                logger.info(f"规则文档删除成功: {file_path} ({chunks_deleted} chunks)")
+                deleted = True
+            else:
+                logger.warning(f"规则文档不存在: {file_path}")
+                deleted = False
+
+            return {
+                'success': True,
+                'deleted': deleted,
+                'chunks_deleted': chunks_deleted,
+                'doc_id': parent_doc_id,
+                'file_path': file_path
+            }
+
+        except Exception as e:
+            logger.error(f"删除规则文档失败 {file_path}: {e}")
+            return {
+                'success': False,
+                'deleted': False,
+                'chunks_deleted': 0,
+                'error': str(e),
+                'file_path': file_path
+            }
+
+    def delete_rule_documents_by_paths(
+        self,
+        file_paths: List[str]
+    ) -> dict:
+        """
+        根据文件路径列表批量删除规则文档
+
+        Args:
+            file_paths: 文件路径列表
+
+        Returns:
+            {
+                'total': int,
+                'deleted': int,
+                'not_found': int,
+                'results': [...]
+            }
+        """
+        logger.info(f"开始批量删除 {len(file_paths)} 个规则文档")
+
+        results = []
+        deleted_count = 0
+        not_found_count = 0
+
+        for file_path in file_paths:
+            result = self.delete_rule_document_by_path(file_path)
+            results.append(result)
+
+            if result['success'] and result['deleted']:
+                deleted_count += 1
+            elif result['success'] and not result['deleted']:
+                not_found_count += 1
+
+        summary = {
+            'total': len(file_paths),
+            'deleted': deleted_count,
+            'not_found': not_found_count,
+            'results': results
+        }
+
+        logger.info(
+            f"批量删除完成: 总数 {summary['total']}, "
+            f"删除 {deleted_count}, 未找到 {not_found_count}"
+        )
+
+        return summary
+
+    def search_competition_rules(
+        self,
+        query: str,
+        competition_id: int = None,
+        subject_keyword: str = None,
+        n_results: int = 5
+    ) -> list[dict]:
+        """
+        搜索竞赛规则文档（支持多条件过滤）
+
+        Args:
+            query: 搜索查询
+            competition_id: 竞赛ID（可选）
+            subject_keyword: 科目关键词，用于过滤文件名（可选，检索后过滤）
+            n_results: 返回结果数量
+
+        Returns:
+            [{'id': str, 'document': str, 'metadata': dict, 'distance': float}, ...]
+        """
+        collection = self._chroma.get_collection(self.COLLECTION_RULES)
+        query_embedding = self._chroma._embed_texts([query])
+
+        # 如果需要科目过滤，扩大召回数量以确保过滤后有足够结果
+        recall_count = n_results * 3 if subject_keyword else n_results
+
+        # 构建查询参数
+        query_params = {
+            "query_embeddings": query_embedding,
+            "n_results": recall_count
+        }
+
+        # Chroma where 过滤只支持精确匹配，科目关键词需要后处理
+        if competition_id is not None:
+            query_params["where"] = {"competition_id": competition_id}
+
+        results = collection.query(**query_params)
+
+        # 格式化返回结果
+        documents = []
+        if results["ids"] and results["ids"][0]:
+            for i, doc_id in enumerate(results["ids"][0]):
+                doc_item = {
+                    "id": doc_id,
+                    "document": results["documents"][0][i] if results["documents"] else None,
+                    "metadata": results["metadatas"][0][i] if results["metadatas"] else None,
+                    "distance": results["distances"][0][i] if results.get("distances") else None
+                }
+
+                # 科目关键词后处理过滤（检查文件名是否包含关键词）
+                if subject_keyword:
+                    filename = doc_item["metadata"].get("filename", "") if doc_item["metadata"] else ""
+                    if subject_keyword.lower() not in filename.lower():
+                        continue
+
+                documents.append(doc_item)
+
+                # 达到目标数量后停止
+                if len(documents) >= n_results:
+                    break
+
+        logger.info(
+            f"搜索规则文档: query='{query[:30]}...', "
+            f"competition_id={competition_id}, subject={subject_keyword}, 返回 {len(documents)} 条结果"
+        )
+        return documents
+
+    def route_competition(self, query: str) -> Optional[Tuple[int, float]]:
+        """
+        竞赛路由：根据查询词匹配竞赛
+
+        Args:
+            query: 竞赛指代词（如：蓝桥杯、ICPC等）
+
+        Returns:
+            (competition_id, distance) 或 None
+        """
+        results = self.search_competitions(query, n_results=1)
+        if not results:
+            logger.info(f"竞赛路由: 未找到匹配竞赛 query='{query}'")
+            return None
+
+        top_result = results[0]
+        competition_id = top_result["metadata"].get("mysql_id")
+        distance = top_result.get("distance", 1.0)
+
+        logger.info(f"竞赛路由: query='{query}' -> id={competition_id}, distance={distance:.4f}")
+        return (competition_id, distance)
+
+    def delete_competition_rules(
+        self,
+        competition_id: int
+    ) -> dict:
+        """
+        删除某个竞赛的所有规则文档
+
+        Args:
+            competition_id: 竞赛ID
+
+        Returns:
+            {'deleted': int, 'competition_id': int}
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_RULES)
+
+            # 获取该竞赛的所有文档ID
+            result = collection.get(
+                where={"competition_id": competition_id},
+                include=[]  # 只需要ID
+            )
+
+            doc_ids = result["ids"]
+
+            if doc_ids:
+                collection.delete(ids=doc_ids)
+                logger.info(f"删除竞赛 {competition_id} 的 {len(doc_ids)} 条规则文档")
+            else:
+                logger.info(f"竞赛 {competition_id} 没有规则文档")
+
+            return {
+                'deleted': len(doc_ids),
+                'competition_id': competition_id
+            }
+
+        except Exception as e:
+            logger.error(f"删除竞赛 {competition_id} 的规则文档失败: {e}")
+            raise
+
+    def get_competition_rules_count(self, competition_id: int) -> int:
+        """获取某个竞赛的规则文档数量"""
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_RULES)
+            result = collection.get(
+                where={"competition_id": competition_id},
+                include=[]
+            )
+            return len(result["ids"])
+        except Exception as e:
+            logger.error(f"获取竞赛 {competition_id} 规则文档数量失败: {e}")
+            return 0
+
+    def get_rules_collection_count(self) -> int:
+        """获取规则文档集合的总数量"""
+        return self._chroma.get_collection_count(self.COLLECTION_RULES)
+
+    # ==================== 评分细则文档管理 ====================
+
+    def add_score_rule_document(
+        self,
+        file_path: str,
+        competition_id: int,
+        custom_metadata: dict = None
+    ) -> dict:
+        """
+        添加评分细则文档（自动切分）
+
+        Args:
+            file_path: 文件路径
+            competition_id: 竞赛ID
+            custom_metadata: 自定义元数据
+
+        Returns:
+            {'success': bool, 'doc_id': str, 'chunks_count': int, 'error': str}
+        """
+        try:
+            logger.info(f"解析评分细则: {file_path}")
+            text, metadata = document_parser.parse_document(file_path)
+            chunks = self._text_splitter.split_text(text)
+
+            parent_doc_id = self._generate_doc_id(file_path)
+
+            # 删除旧的 chunks
+            self._delete_chunks_by_parent(parent_doc_id, self.COLLECTION_SCORE_RULES)
+
+            # 准备批量数据
+            chunk_ids = []
+            chunk_texts = []
+            chunk_metadatas = []
+
+            for i, chunk_text in enumerate(chunks):
+                chunk_ids.append(f"{parent_doc_id}_chunk_{i}")
+                chunk_texts.append(chunk_text)
+                chunk_meta = {
+                    'competition_id': competition_id,
+                    'parent_doc_id': parent_doc_id,
+                    'chunk_index': i,
+                    **metadata
+                }
+                if custom_metadata:
+                    chunk_meta.update(custom_metadata)
+                chunk_metadatas.append(chunk_meta)
+
+            self._chroma.upsert_documents_batch(
+                ids=chunk_ids,
+                texts=chunk_texts,
+                metadatas=chunk_metadatas,
+                collection_name=self.COLLECTION_SCORE_RULES
+            )
+
+            logger.info(f"评分细则添加成功: {len(chunks)} chunks")
+            return {'success': True, 'doc_id': parent_doc_id, 'chunks_count': len(chunks)}
+
+        except Exception as e:
+            logger.error(f"添加评分细则失败: {e}")
+            return {'success': False, 'error': str(e)}
+
+    def search_score_rules(
+        self,
+        query: str,
+        competition_id: int,
+        n_results: int = 5
+    ) -> List[dict]:
+        """
+        搜索评分细则
+
+        Args:
+            query: 查询文本
+            competition_id: 竞赛ID
+            n_results: 返回数量
+
+        Returns:
+            [{'id': str, 'document': str, 'metadata': dict, 'distance': float}]
+        """
+        collection = self._chroma.get_collection(self.COLLECTION_SCORE_RULES)
+        query_embedding = self._chroma.embed_texts([query])
+
+        results = collection.query(
+            query_embeddings=query_embedding,
+            n_results=n_results,
+            where={"competition_id": competition_id}
+        )
+
+        documents = []
+        if results["ids"] and results["ids"][0]:
+            for i, doc_id in enumerate(results["ids"][0]):
+                documents.append({
+                    "id": doc_id,
+                    "document": results["documents"][0][i] if results["documents"] else None,
+                    "metadata": results["metadatas"][0][i] if results["metadatas"] else None,
+                    "distance": results["distances"][0][i] if results.get("distances") else None
+                })
+
+        logger.debug(f"评分细则搜索: competition_id={competition_id}, 返回 {len(documents)} 条")
+        return documents
+
+    def get_all_score_rules(self, competition_id: int) -> List[str]:
+        """获取竞赛的所有评分细则文本"""
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_SCORE_RULES)
+            result = collection.get(
+                where={"competition_id": competition_id},
+                include=["documents"]
+            )
+            return result["documents"] if result["documents"] else []
+        except Exception as e:
+            logger.error(f"获取评分细则失败: {e}")
+            return []
+
+    def delete_score_rules(self, competition_id: int) -> int:
+        """删除竞赛的所有评分细则"""
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_SCORE_RULES)
+            result = collection.get(where={"competition_id": competition_id}, include=[])
+            if result["ids"]:
+                collection.delete(ids=result["ids"])
+                logger.info(f"删除竞赛 {competition_id} 的评分细则: {len(result['ids'])} 条")
+                return len(result["ids"])
+            return 0
+        except Exception as e:
+            logger.error(f"删除评分细则失败: {e}")
+            return 0
+
+    def _delete_chunks_by_parent(self, parent_doc_id: str, collection_name: str) -> int:
+        """删除指定父文档的所有chunks（通用方法）"""
+        try:
+            collection = self._chroma.get_collection(collection_name)
+            result = collection.get(
+                where={"parent_doc_id": parent_doc_id},
+                include=[]
+            )
+            if result["ids"]:
+                collection.delete(ids=result["ids"])
+                return len(result["ids"])
+            return 0
+        except Exception as e:
+            logger.error(f"删除chunks失败: {e}")
+            return 0
+
+    # ==================== 临时向量存储 ====================
+
+    def create_temp_store(self) -> TempVectorStore:
+        """
+        创建临时向量存储（内存模式，用完即销毁）
+
+        Returns:
+            TempVectorStore 实例
+        """
+        return TempVectorStore(self._chroma)
 
 
 # 全局单例

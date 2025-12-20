@@ -1,0 +1,43 @@
+2025-12-17 14:56:04 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 14:59:39 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:04:48 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:05:04 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:06:18 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:08:20 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:10:39 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:11:01 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:11:19 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:12:03 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:16:27 | ERROR    | ai_api.recommend | 推荐失败: Request timed out.
+2025-12-17 15:50:36 | ERROR    | skill_analysis_service | 技能分析失败: 'Input to ChatPromptTemplate is missing variables {\'\\n    "radar_chart"\'}.  Expected: [\'\\n    "radar_chart"\'] Received: []\nNote: if you intended {\n    "radar_chart"} to be part of the string and not a variable, please escape it with double curly braces like: \'{{\n    "radar_chart"}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+2025-12-17 16:46:55 | ERROR    | skill_analysis_service | 技能分析失败: 'Input to ChatPromptTemplate is missing variables {\'\\n    "radar_chart"\'}.  Expected: [\'\\n    "radar_chart"\'] Received: []\nNote: if you intended {\n    "radar_chart"} to be part of the string and not a variable, please escape it with double curly braces like: \'{{\n    "radar_chart"}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+2025-12-17 16:53:20 | ERROR    | skill_analysis_service | 技能分析失败: 'Input to ChatPromptTemplate is missing variables {\'"name"\'}.  Expected: [\'"name"\'] Received: []\nNote: if you intended {"name"} to be part of the string and not a variable, please escape it with double curly braces like: \'{{"name"}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+2025-12-17 16:55:07 | ERROR    | skill_analysis_service | 技能分析失败: 'Input to ChatPromptTemplate is missing variables {"\'name\'"}.  Expected: ["\'name\'"] Received: []\nNote: if you intended {\'name\'} to be part of the string and not a variable, please escape it with double curly braces like: \'{{\'name\'}}\'.\nFor troubleshooting, visit: https://docs.langchain.com/oss/python/langchain/errors/INVALID_PROMPT_INPUT '
+2025-12-18 10:47:52 | ERROR    | trend_analysis_service | 搜索失败: Could not import ddgs python package. Please install it with `pip install -U ddgs`.
+2025-12-18 10:47:52 | ERROR    | trend_analysis_service | 搜索失败: Could not import ddgs python package. Please install it with `pip install -U ddgs`.
+2025-12-18 14:09:50 | ERROR    | learning_path_service | 学习路径生成失败: Request timed out.
+2025-12-18 14:10:50 | ERROR    | learning_path_service | 学习路径生成失败: Request timed out.
+2025-12-18 15:39:17 | ERROR    | project_planning_service | 项目大纲生成失败: Request timed out.
+2025-12-18 15:39:17 | ERROR    | ai_api.project_outline | 项目大纲生成失败: 'NoneType' object has no attribute 'get'
+2025-12-18 16:17:33 | ERROR    | ai_service | LLM 调用失败: Request timed out.
+2025-12-18 16:22:42 | ERROR    | ai_service | LLM 调用失败: Request timed out.
+2025-12-18 16:24:57 | ERROR    | ai_service | LLM 调用失败: Request timed out.
+2025-12-18 16:27:44 | ERROR    | ai_service | LLM 调用失败: Request timed out.
+2025-12-18 16:29:18 | ERROR    | ai_service | LLM 调用失败: Request timed out.
+2025-12-18 16:31:40 | ERROR    | ai_service | LLM 调用失败: Request timed out.
+2025-12-18 16:32:27 | ERROR    | ai_service | LLM 调用失败: Request timed out.
+2025-12-20 13:56:54 | ERROR    | mysql | MySQL 连接失败: (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-12-20 13:58:22 | ERROR    | mysql | MySQL 连接失败: (pymysql.err.OperationalError) (2003, "Can't connect to MySQL server on 'localhost' ([WinError 10061] 由于目标计算机积极拒绝，无法连接。)")
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-12-20 14:04:41 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:10:19 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:10:37 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:11:02 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:11:29 | ERROR    | intent_service | 意图解析异常: Connection error.
+2025-12-20 14:11:31 | ERROR    | ai_api.chat | LLM 调用失败: Connection error.
+2025-12-20 14:12:50 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:15:35 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:16:18 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:21:38 | ERROR    | user.analyze | 画像分析失败: Connection error.
+2025-12-20 14:25:26 | ERROR    | user.analyze | 画像分析失败: Connection error.

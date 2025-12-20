@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from app.api.aiRouters import router as ai_router
+from app.api.userRouters import router as user_router
 from app.api.chromaRouters import router as chroma_router
 from app.db import init_databases, close_databases, mysql_client
 from app.services import init_services
@@ -44,7 +45,8 @@ app = FastAPI(
 )
 
 # 注册路由
-app.include_router(ai_router, prefix="/api", tags=["AI"])
+app.include_router(ai_router, prefix="/api/ai", tags=["AI竞赛"])
+app.include_router(user_router, prefix="/api/user", tags=["用户画像"])
 app.include_router(chroma_router, prefix="/api/chroma", tags=["Chroma向量库"])
 
 

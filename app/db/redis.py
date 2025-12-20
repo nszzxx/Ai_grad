@@ -39,7 +39,7 @@ class RedisClient:
 
         except Exception as e:
             self._connected = False
-            self.logger.warning(f"Redis 连接失败: {e} (服务将继续运行，但缓存功能不可用)")
+            self.logger.error(f"Redis 连接失败: {e} (服务将继续运行，但缓存功能不可用)")
         self.logger.info("=" * 20 + "REDIS" + "=" * 20)
 
     @property

@@ -1,5 +1,7 @@
+import json
 import os
-from typing import Optional
+import uuid
+from typing import Optional, List
 import chromadb
 from chromadb.config import Settings
 from sentence_transformers import SentenceTransformer
@@ -17,31 +19,52 @@ class ChromaClient:
         self._client = None
         self._connected = False
         self._embedding_model = None
-        self._persist_dir = os.path.join(os.path.dirname(__file__), os.getenv("CHROMA_FILE_PATH"))
-        # 模型名称：HuggingFace 模型 ID，用于自动下载
-        self._model_name = os.getenv("EMBEDDING_MODEL_NAME")
-        # 模型缓存目录：指定下载位置，避免下载到 C 盘
-        self._model_cache_dir = os.getenv("EMBEDDING_CACHE_DIR")
-        self._model_device = os.getenv("EMBEDDING_DEVICE", "cpu")
+        self._config = None
+        # 配置将在 init() 中从数据库加载
+        self._persist_dir = None
+        self._model_name = None
+        self._model_cache_dir = None
+        self._model_device = None
 
-    def init(self):
-        """初始化 Chroma 连接"""
+    def init(self, db_session):
+        """初始化 Chroma 连接 (服务启动时调用)"""
+        from app.models.sql_models import GlobalConfig
+
         self.logger.info("=" * 20 + "CHROMA" + "=" * 20)
         try:
             self.logger.info("正在初始化 Chroma 连接...")
 
+            # 从数据库加载配置
+            config = db_session.query(GlobalConfig).filter(
+                GlobalConfig.config_key == "CHROMA_CONFIG"
+            ).first()
+
+            if not config:
+                raise ValueError("数据库中没有找到 CHROMA_CONFIG 配置!")
+
+            self._config = json.loads(config.config_value)
+            self.logger.info(f"加载 Chroma 配置: {self._config}")
+
+            # 解析配置参数
+            self._persist_dir = os.path.join(os.path.dirname(__file__), self._config.get("CHROMA_FILE_PATH", "./chroma_db"))
+            self._model_name = self._config.get("EMBEDDING_MODEL_NAME", "moka-ai/m3e-base")
+            self._model_cache_dir = self._config.get("EMBEDDING_CACHE_DIR", "./app/models/m3e-base")
+            self._model_device = self._config.get("EMBEDDING_DEVICE", "cpu")
+
             # 确保模型缓存目录存在
             os.makedirs(self._model_cache_dir, exist_ok=True)
 
-            # 初始化 embedding 模型，自动下载到指定目录
+            # 初始化 embedding 模型
+            # SentenceTransformer 会自动管理 HuggingFace Hub 缓存
+            # cache_folder 指定缓存目录，如果已有缓存会自动使用，没有则下载
             self.logger.info(f"加载 Embedding 模型: {self._model_name}")
             self.logger.info(f"模型缓存目录: {os.path.abspath(self._model_cache_dir)}")
             self.logger.info(f"使用设备: {self._model_device}")
 
             self._embedding_model = SentenceTransformer(
                 model_name_or_path=self._model_name,
-                cache_folder=self._model_cache_dir,
-                device=self._model_device
+                device=self._model_device,
+                cache_folder=self._model_cache_dir
             )
             self.logger.info("Embedding 模型加载成功!")
 
@@ -84,6 +107,11 @@ class ChromaClient:
     def is_connected(self) -> bool:
         """检查是否已连接"""
         return self._connected
+
+    @property
+    def config(self) -> dict:
+        """获取当前配置"""
+        return self._config
 
     def _embed_texts(self, texts: list[str]) -> list[list[float]]:
         """使用本地模型生成向量"""
@@ -294,6 +322,90 @@ class ChromaClient:
             raise ConnectionError("Chroma 未连接")
         collections = self._client.list_collections()
         return [col.name for col in collections]
+
+    def embed_texts(self, texts: List[str]) -> List[List[float]]:
+        """公开的向量生成方法，供临时存储使用"""
+        return self._embed_texts(texts)
+
+
+class TempVectorStore:
+    """
+    临时向量存储 - 内存模式
+    用于项目书等临时文档的向量化存储，代码跑完自动回收
+    """
+
+    def __init__(self, chroma_client: ChromaClient):
+        """
+        Args:
+            chroma_client: 主 Chroma 客户端，复用其 embedding 模型
+        """
+        self.logger = get_logger("temp_vector_store")
+        self._main_client = chroma_client
+        self._client = chromadb.Client()  # 内存模式
+        self._collection_name = f"temp_{uuid.uuid4().hex[:12]}"
+        self._collection = self._client.create_collection(name=self._collection_name)
+        self.logger.debug(f"创建临时向量库: {self._collection_name}")
+
+    @property
+    def collection_name(self) -> str:
+        return self._collection_name
+
+    def add_documents(
+        self,
+        texts: List[str],
+        metadatas: List[dict] = None,
+        ids: List[str] = None
+    ) -> int:
+        """添加文档到临时库"""
+        if ids is None:
+            ids = [f"chunk_{i}" for i in range(len(texts))]
+        embeddings = self._main_client.embed_texts(texts)
+        self._collection.add(
+            ids=ids,
+            documents=texts,
+            embeddings=embeddings,
+            metadatas=metadatas
+        )
+        self.logger.debug(f"临时库添加 {len(texts)} 条文档")
+        return len(texts)
+
+    def search(self, query: str, n_results: int = 5) -> List[dict]:
+        """搜索相似文档"""
+        query_embedding = self._main_client.embed_texts([query])
+        results = self._collection.query(
+            query_embeddings=query_embedding,
+            n_results=n_results
+        )
+
+        documents = []
+        if results["ids"] and results["ids"][0]:
+            for i, doc_id in enumerate(results["ids"][0]):
+                documents.append({
+                    "id": doc_id,
+                    "document": results["documents"][0][i] if results["documents"] else None,
+                    "metadata": results["metadatas"][0][i] if results["metadatas"] else None,
+                    "distance": results["distances"][0][i] if results.get("distances") else None
+                })
+        return documents
+
+    def count(self) -> int:
+        """获取文档数量"""
+        return self._collection.count()
+
+    def clear(self):
+        """清空临时库"""
+        try:
+            self._client.delete_collection(self._collection_name)
+            self.logger.debug(f"临时向量库已清空: {self._collection_name}")
+        except Exception as e:
+            self.logger.warning(f"清空临时库失败: {e}")
+
+    def __del__(self):
+        """析构时自动清理"""
+        try:
+            self.clear()
+        except:
+            pass
 
 
 # 全局单例

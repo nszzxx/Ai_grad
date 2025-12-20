@@ -42,7 +42,7 @@ class LLMClient:
             model = self._config.get("model")
             max_tokens = int(self._config.get("max_tokens", 4000))
             temperature = float(self._config.get("temperature", 0.7))
-            timeout = int(self._config.get("time_out", 30000)) / 1000
+            timeout = int(self._config.get("time_out", 100000)) / 1000
 
             # 创建 LLM 客户端
             self._client = ChatOpenAI(

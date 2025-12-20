@@ -1,0 +1,57 @@
+2025-12-17 14:55:52 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 14:55:52 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 14:59:27 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 14:59:27 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:04:36 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:04:36 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:04:52 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:04:52 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:06:06 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:06:06 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:08:08 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:08:08 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:10:27 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:10:27 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:10:49 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:10:49 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:11:07 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:11:07 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:11:51 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:11:51 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:16:15 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:16:15 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:17:15 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:17:15 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 15:23:19 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-17 15:23:19 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-17 17:28:51 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=1
+2025-12-17 17:29:01 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=1
+2025-12-17 17:29:08 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=1
+2025-12-17 17:29:23 | DEBUG    | chroma | 搜索相似文档: query=蓝桥软件赛..., n_results=1
+2025-12-17 17:29:24 | DEBUG    | reranker_service |   结果 1: idx=0, score=0.9898
+2025-12-17 17:29:24 | DEBUG    | reranker_service |   结果 2: idx=1, score=0.0113
+2025-12-17 17:29:24 | DEBUG    | reranker_service |   结果 3: idx=2, score=0.0098
+2025-12-18 14:07:49 | DEBUG    | chroma | 搜索相似文档: query=蓝桥软件赛..., n_results=1
+2025-12-18 14:07:50 | DEBUG    | reranker_service |   结果 1: idx=0, score=0.9898
+2025-12-18 14:07:50 | DEBUG    | reranker_service |   结果 2: idx=1, score=0.0113
+2025-12-18 14:07:50 | DEBUG    | reranker_service |   结果 3: idx=2, score=0.0098
+2025-12-18 14:14:36 | DEBUG    | document_parser | PDF 解析成功: E:/apps/xampp/htdocs/graduate/doc/lanqiao/第十七届蓝桥杯大赛软件赛竞赛规则及说明\第十七届蓝桥杯大赛软件赛（C&C++程序设计科目）竞赛规则及说明.pdf, 提取 4396 字符
+2025-12-18 14:14:37 | DEBUG    | chroma_service | 删除父文档 286b522090e506fe3d0bccc6ee5ae0c9 的 26 个chunks
+2025-12-18 14:14:50 | DEBUG    | document_parser | PDF 解析成功: E:/apps/xampp/htdocs/graduate/doc/lanqiao/第十七届蓝桥杯大赛软件赛竞赛规则及说明\第十七届蓝桥杯大赛软件赛（Java软件开发科目）竞赛规则及说明.pdf, 提取 4327 字符
+2025-12-18 14:14:50 | DEBUG    | chroma_service | 删除父文档 c50328fbc780cda65335681cbd231026 的 27 个chunks
+2025-12-18 14:15:02 | DEBUG    | document_parser | PDF 解析成功: E:/apps/xampp/htdocs/graduate/doc/lanqiao/第十七届蓝桥杯大赛软件赛竞赛规则及说明\第十七届蓝桥杯大赛软件赛（Python程序设计科目）竞赛规则及说明.pdf, 提取 4089 字符
+2025-12-18 14:15:03 | DEBUG    | chroma_service | 删除父文档 b1e152be7bf45b6abf4e19e579c92156 的 26 个chunks
+2025-12-18 14:15:14 | DEBUG    | document_parser | PDF 解析成功: E:/apps/xampp/htdocs/graduate/doc/lanqiao/第十七届蓝桥杯大赛软件赛竞赛规则及说明\第十七届蓝桥杯大赛软件赛（Web应用开发科目）竞赛规则及说明.pdf, 提取 3444 字符
+2025-12-18 14:15:14 | DEBUG    | chroma_service | 删除父文档 53d4310a7933f3488c6377575bb446ba 的 22 个chunks
+2025-12-18 14:15:23 | DEBUG    | document_parser | PDF 解析成功: E:/apps/xampp/htdocs/graduate/doc/lanqiao/第十七届蓝桥杯大赛软件赛竞赛规则及说明\第十七届蓝桥杯大赛软件赛（网络安全科目）竞赛规则及说明.pdf, 提取 3578 字符
+2025-12-18 14:15:23 | DEBUG    | chroma_service | 删除父文档 6a93c58a0cbb2bc2dc31c1daafbb9e14 的 26 个chunks
+2025-12-18 14:15:35 | DEBUG    | document_parser | PDF 解析成功: E:/apps/xampp/htdocs/graduate/doc/lanqiao/第十七届蓝桥杯大赛软件赛竞赛规则及说明\第十七届蓝桥杯大赛软件赛（软件测试科目）竞赛规则及说明.pdf, 提取 6192 字符
+2025-12-18 14:15:35 | DEBUG    | chroma_service | 删除父文档 f23c3c6be8a07cdb8af8508142895bcf 的 42 个chunks
+2025-12-18 15:58:47 | DEBUG    | chroma | 搜索相似文档: query=蓝桥软件赛..., n_results=1
+2025-12-18 15:58:49 | DEBUG    | reranker_service |   结果 1: idx=0, score=0.9898
+2025-12-18 15:58:49 | DEBUG    | reranker_service |   结果 2: idx=1, score=0.0113
+2025-12-18 15:58:49 | DEBUG    | reranker_service |   结果 3: idx=2, score=0.0098
+2025-12-18 16:31:38 | DEBUG    | chroma | 搜索相似文档: query=蓝桥软件赛..., n_results=1
+2025-12-18 16:31:40 | DEBUG    | reranker_service |   结果 1: idx=0, score=0.9898
+2025-12-18 16:31:40 | DEBUG    | reranker_service |   结果 2: idx=1, score=0.0113
+2025-12-18 16:31:40 | DEBUG    | reranker_service |   结果 3: idx=2, score=0.0098

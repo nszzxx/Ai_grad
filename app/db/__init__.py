@@ -7,7 +7,7 @@ logger = get_logger("db")
 
 
 def init_databases():
-    """统一初始化所有数据库连接"""
+    """统一初始化所有数据库连接 (不依赖配置的部分)"""
     logger.info("="*30+"初始化数据库"+"="*30)
 
     # 1. 初始化 MySQL (必须)
@@ -16,8 +16,7 @@ def init_databases():
     # 2. 初始化 Redis (可选，失败不影响服务启动)
     redis_client.init()
 
-    # 3. 初始化 Chroma (必须)
-    chroma_client.init()
+    # 注意: Chroma 需要从数据库读取配置，在 init_services() 中初始化
 
     logger.info(logger.info("="*30+"数据库初始化完成"+"="*30))
 
