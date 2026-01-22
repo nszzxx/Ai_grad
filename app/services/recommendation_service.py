@@ -66,6 +66,7 @@ class RecommendationService:
     def _weighted_recall(
         self,
         intent_keywords: List[str],
+        level: Optional[str],
         skills: List[str]
     ) -> List[dict]:
         """
@@ -74,6 +75,17 @@ class RecommendationService:
         - Query B: skills (30%)
         """
         score_map = {}  # {competition_id: {"score": float, "data": dict}}
+
+        def _difficulty_pass(meta: dict) -> bool:
+            """基于 metadata.difficulty 的难度筛选（宽松匹配，支持中文/英文/大小写）"""
+            if not level:
+                return True
+            target = str(level).strip().lower()
+            diff = meta.get("difficulty", "")
+            if not diff:
+                return True  # 没有难度信息时不拦截，避免召回为空
+            # 子串匹配：例如 level="初级" 可匹配 "初级/入门"
+            return (target in diff) or (diff in target)
 
         # Query A: 意图关键词检索
         if intent_keywords:
@@ -86,6 +98,8 @@ class RecommendationService:
             for rank, item in enumerate(intent_results):
                 comp_id = item["metadata"].get("mysql_id")
                 if comp_id is None:
+                    continue
+                if not _difficulty_pass(item["metadata"]):
                     continue
                 # 排名越高分数越高
                 rank_score = (self.RECALL_COUNT - rank) / self.RECALL_COUNT
@@ -106,6 +120,8 @@ class RecommendationService:
             for rank, item in enumerate(skill_results):
                 comp_id = item["metadata"].get("mysql_id")
                 if comp_id is None:
+                    continue
+                if not _difficulty_pass(item["metadata"]):
                     continue
                 rank_score = (self.RECALL_COUNT - rank) / self.RECALL_COUNT
                 weighted_score = rank_score * self.SKILL_WEIGHT
@@ -268,6 +284,7 @@ class RecommendationService:
         self,
         user_profile: dict,
         skills: List[str] = None,
+        level: Optional[str] = None,
         top_k: int = 5
     ) -> dict:
         """
@@ -276,6 +293,7 @@ class RecommendationService:
         Args:
             user_profile: 用户画像 {analysis, summary, intent_keywords}
             skills: 用户技能列表（可选，用于技能检索）
+            level: 用户水平（可选，用于难度匹配）
             top_k: 返回数量
 
         Returns:
@@ -303,8 +321,8 @@ class RecommendationService:
         intent_keywords = user_profile.get("intent_keywords", [])
 
         # 1. 加权混合检索
-        logger.info(f"【推荐服务】开始推荐，intent={intent_keywords}, skills={skills}")
-        competitions = self._weighted_recall(intent_keywords, skills or [])
+        logger.info(f"【推荐服务】开始推荐，intent={intent_keywords}, skills={skills}, level={level}")
+        competitions = self._weighted_recall(intent_keywords, level, skills or [])
 
         if not competitions:
             logger.warning("【推荐服务】未召回任何竞赛")

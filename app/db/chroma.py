@@ -60,12 +60,22 @@ class ChromaClient:
             self.logger.info(f"加载 Embedding 模型: {self._model_name}")
             self.logger.info(f"模型缓存目录: {os.path.abspath(self._model_cache_dir)}")
             self.logger.info(f"使用设备: {self._model_device}")
-
-            self._embedding_model = SentenceTransformer(
-                model_name_or_path=self._model_name,
-                device=self._model_device,
-                cache_folder=self._model_cache_dir
-            )
+            try:
+                self._embedding_model = SentenceTransformer(
+                    model_name_or_path=self._model_name,
+                    device=self._model_device,
+                    cache_folder=self._model_cache_dir,
+                    local_files_only=True
+                )
+            except:
+                # 如果本地没有缓存，允许联网下载
+                self.logger.warning("本地没有找到模型缓存，尝试联网下载...")
+                self._embedding_model = SentenceTransformer(
+                    model_name_or_path=self._model_name,
+                    device=self._model_device,
+                    cache_folder=self._model_cache_dir,
+                    local_files_only=False
+                )
             self.logger.info("Embedding 模型加载成功!")
 
             self._client = chromadb.PersistentClient(
@@ -326,6 +336,37 @@ class ChromaClient:
     def embed_texts(self, texts: List[str]) -> List[List[float]]:
         """公开的向量生成方法，供临时存储使用"""
         return self._embed_texts(texts)
+
+    def compute_cosine_similarity(
+        self,
+        source_text: str,
+        target_texts: List[str]
+    ) -> List[float]:
+        """
+        计算源文本与多个目标文本的余弦相似度
+
+        由于使用 normalize_embeddings=True，向量已归一化，
+        余弦相似度 = 向量点积
+
+        Args:
+            source_text: 源文本（用户技能描述或团队需求）
+            target_texts: 目标文本列表
+
+        Returns:
+            余弦相似度列表，范围 [-1, 1]，1 表示完全相似
+        """
+        import numpy as np
+
+        # 生成源向量
+        source_embedding = np.array(self._embed_texts([source_text])[0])
+
+        # 生成目标向量
+        target_embeddings = np.array(self._embed_texts(target_texts))
+
+        # 计算余弦相似度（对于归一化向量，直接点积即可）
+        similarities = np.dot(target_embeddings, source_embedding)
+
+        return similarities.tolist()
 
 
 class TempVectorStore:

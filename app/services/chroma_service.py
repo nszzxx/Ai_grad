@@ -173,7 +173,10 @@ class ChromaService:
                 competitions.append({
                     "id": doc_id,
                     "document": results["documents"][0][i] if results["documents"] else None,
-                    "metadata": results["metadatas"][0][i] if results["metadatas"] else None,
+                    "metadata": {"mysql_id":results["metadatas"][0][i]["mysql_id"],
+                                 "title":results["metadatas"][0][i]["title"],
+                                 "difficulty":results["metadatas"][0][i]["difficulty"]}
+                                if results["metadatas"] else None,
                     "distance": results["distances"][0][i] if results.get("distances") else None
                 })
 
@@ -266,6 +269,50 @@ class ChromaService:
     def get_competitions_count(self) -> int:
         """获取竞赛集合中的文档数量"""
         return self._chroma.get_collection_count(self.COLLECTION_COMPETITIONS)
+
+    def check_competitions_sync_status(self) -> dict:
+        """
+        检查竞赛数据同步状态，对比 MySQL 和向量库的差异
+        返回: {
+            'mysql_count': int,           # MySQL 中的竞赛数量
+            'vector_count': int,          # 向量库中的竞赛数量
+            'synced_count': int,          # 已同步的竞赛数量
+            'missing_in_vector': list,    # MySQL 有但向量库没有的竞赛 ID
+            'extra_in_vector': list,      # 向量库有但 MySQL 没有的竞赛 ID
+            'is_synced': bool,            # 是否完全同步
+            'missing_competitions': list  # 缺失竞赛的详细信息（ID 和标题）
+        }
+        """
+        db = self._mysql.get_session()
+        try:
+            # 获取 MySQL 中所有竞赛 ID 和标题
+            mysql_results = db.query(Competition.id, Competition.title).all()
+            mysql_ids = {str(row[0]) for row in mysql_results}
+
+            # 获取向量库中所有竞赛 ID
+            vector_ids = set(self._chroma.list_all_ids(self.COLLECTION_COMPETITIONS))
+
+            # 计算差异
+            synced_ids = mysql_ids & vector_ids
+            missing_in_vector = mysql_ids - vector_ids
+            extra_in_vector = vector_ids - mysql_ids
+
+
+
+            is_synced = len(missing_in_vector) == 0 and len(extra_in_vector) == 0
+            logger.info(f"同步状态检查: MySQL {len(mysql_ids)} 条, 向量库 {len(vector_ids)} 条, "
+                       f"已同步 {len(synced_ids)} 条, 缺失 {len(missing_in_vector)} 条")
+
+            return {
+                "mysql_count": len(mysql_ids),
+                "vector_count": len(vector_ids),
+                "synced_count": len(synced_ids),
+                "missing_in_vector": sorted([int(x) for x in missing_in_vector]),
+                "extra_in_vector": sorted([int(x) for x in extra_in_vector]),
+                "is_synced": is_synced
+            }
+        finally:
+            db.close()
 
     def list_all_ids(self, collection_name: str = "default", limit: int = None) -> list[str]:
         """列出集合中所有文档ID"""
@@ -944,6 +991,367 @@ class ChromaService:
         except Exception as e:
             logger.error(f"删除chunks失败: {e}")
             return 0
+
+    # ==================== 后台管理接口（文档列表与统计） ====================
+
+    def get_competition_rule_documents(self, competition_id: int) -> List[dict]:
+        """
+        获取竞赛的规则文档列表（按源文件分组）
+
+        Args:
+            competition_id: 竞赛ID
+
+        Returns:
+            [
+                {
+                    'parent_doc_id': str,
+                    'filename': str,
+                    'file_type': str,
+                    'file_size': int,
+                    'total_chunks': int,
+                    'original_path': str,
+                    'source': str
+                },
+                ...
+            ]
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_RULES)
+
+            # 查询该竞赛的所有chunks
+            result = collection.get(
+                where={"competition_id": competition_id},
+                include=["metadatas"]
+            )
+
+            if not result["ids"]:
+                return []
+
+            # 按 parent_doc_id 分组，提取每个源文件的信息
+            documents_map = {}
+            for i, doc_id in enumerate(result["ids"]):
+                metadata = result["metadatas"][i] if result["metadatas"] else {}
+                parent_doc_id = metadata.get("parent_doc_id", "")
+
+                if parent_doc_id and parent_doc_id not in documents_map:
+                    documents_map[parent_doc_id] = {
+                        "parent_doc_id": parent_doc_id,
+                        "filename": metadata.get("filename", ""),
+                        "file_type": metadata.get("file_type", ""),
+                        "file_size": metadata.get("file_size", 0),
+                        "total_chunks": metadata.get("total_chunks", 0),
+                        "original_path": metadata.get("original_path", ""),
+                        "source": metadata.get("source", "")
+                    }
+
+            documents = list(documents_map.values())
+            logger.info(f"获取竞赛 {competition_id} 的规则文档列表: {len(documents)} 个文件")
+            return documents
+
+        except Exception as e:
+            logger.error(f"获取竞赛 {competition_id} 规则文档列表失败: {e}")
+            return []
+
+    def get_rules_statistics(self) -> List[dict]:
+        """
+        获取所有竞赛的规则文档统计
+
+        Returns:
+            [
+                {
+                    'competition_id': int,
+                    'document_count': int,  # 源文件数量
+                    'chunk_count': int,     # chunk总数
+                    'documents': [          # 文档列表
+                        {'filename': str, 'total_chunks': int},
+                        ...
+                    ]
+                },
+                ...
+            ]
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_RULES)
+
+            # 获取所有数据
+            result = collection.get(include=["metadatas"])
+
+            if not result["ids"]:
+                return []
+
+            # 按 competition_id 分组统计
+            stats_map = {}
+            for i, doc_id in enumerate(result["ids"]):
+                metadata = result["metadatas"][i] if result["metadatas"] else {}
+                comp_id = metadata.get("competition_id")
+                parent_doc_id = metadata.get("parent_doc_id", "")
+                filename = metadata.get("filename", "")
+                total_chunks = metadata.get("total_chunks", 0)
+
+                if comp_id is None:
+                    continue
+
+                if comp_id not in stats_map:
+                    stats_map[comp_id] = {
+                        "competition_id": comp_id,
+                        "document_count": 0,
+                        "chunk_count": 0,
+                        "documents": {},  # 使用dict去重
+                    }
+
+                stats_map[comp_id]["chunk_count"] += 1
+
+                # 按 parent_doc_id 去重统计文档数
+                if parent_doc_id and parent_doc_id not in stats_map[comp_id]["documents"]:
+                    stats_map[comp_id]["documents"][parent_doc_id] = {
+                        "filename": filename,
+                        "total_chunks": total_chunks
+                    }
+                    stats_map[comp_id]["document_count"] += 1
+
+            # 转换为列表格式
+            statistics = []
+            for comp_id, stat in stats_map.items():
+                statistics.append({
+                    "competition_id": stat["competition_id"],
+                    "document_count": stat["document_count"],
+                    "chunk_count": stat["chunk_count"],
+                    "documents": list(stat["documents"].values())
+                })
+
+            # 按 competition_id 排序
+            statistics.sort(key=lambda x: x["competition_id"])
+            logger.info(f"获取规则文档统计: {len(statistics)} 个竞赛")
+            return statistics
+
+        except Exception as e:
+            logger.error(f"获取规则文档统计失败: {e}")
+            return []
+
+    def get_competition_score_rule_documents(self, competition_id: int) -> List[dict]:
+        """
+        获取竞赛的评分细则文档列表（按源文件分组）
+
+        Args:
+            competition_id: 竞赛ID
+
+        Returns:
+            [
+                {
+                    'parent_doc_id': str,
+                    'filename': str,
+                    'file_type': str,
+                    'file_size': int,
+                    'total_chunks': int,
+                    'original_path': str,
+                    'source': str
+                },
+                ...
+            ]
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_SCORE_RULES)
+
+            # 查询该竞赛的所有chunks
+            result = collection.get(
+                where={"competition_id": competition_id},
+                include=["metadatas"]
+            )
+
+            if not result["ids"]:
+                return []
+
+            # 按 parent_doc_id 分组
+            documents_map = {}
+            for i, doc_id in enumerate(result["ids"]):
+                metadata = result["metadatas"][i] if result["metadatas"] else {}
+                parent_doc_id = metadata.get("parent_doc_id", "")
+
+                if parent_doc_id and parent_doc_id not in documents_map:
+                    documents_map[parent_doc_id] = {
+                        "parent_doc_id": parent_doc_id,
+                        "filename": metadata.get("filename", ""),
+                        "file_type": metadata.get("file_type", ""),
+                        "file_size": metadata.get("file_size", 0),
+                        "total_chunks": metadata.get("total_chunks", 0),
+                        "original_path": metadata.get("original_path", ""),
+                        "source": metadata.get("source", "")
+                    }
+
+            documents = list(documents_map.values())
+            logger.info(f"获取竞赛 {competition_id} 的评分细则文档列表: {len(documents)} 个文件")
+            return documents
+
+        except Exception as e:
+            logger.error(f"获取竞赛 {competition_id} 评分细则文档列表失败: {e}")
+            return []
+
+    def get_rule_document_chunks(self, parent_doc_id: str) -> List[dict]:
+        """
+        获取指定规则文档的所有chunks
+
+        Args:
+            parent_doc_id: 父文档ID
+
+        Returns:
+            [
+                {
+                    'chunk_id': str,
+                    'chunk_index': int,
+                    'content': str,
+                    'metadata': dict
+                },
+                ...
+            ]
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_RULES)
+
+            result = collection.get(
+                where={"parent_doc_id": parent_doc_id},
+                include=["documents", "metadatas"]
+            )
+
+            if not result["ids"]:
+                return []
+
+            chunks = []
+            for i, chunk_id in enumerate(result["ids"]):
+                metadata = result["metadatas"][i] if result["metadatas"] else {}
+                chunks.append({
+                    "chunk_id": chunk_id,
+                    "chunk_index": metadata.get("chunk_index", i),
+                    "content": result["documents"][i] if result["documents"] else "",
+                    "metadata": metadata
+                })
+
+            # 按 chunk_index 排序
+            chunks.sort(key=lambda x: x["chunk_index"])
+            logger.info(f"获取文档 {parent_doc_id} 的chunks: {len(chunks)} 个")
+            return chunks
+
+        except Exception as e:
+            logger.error(f"获取文档 {parent_doc_id} chunks失败: {e}")
+            return []
+
+    def get_score_rule_document_chunks(self, parent_doc_id: str) -> List[dict]:
+        """
+        获取指定评分细则文档的所有chunks
+
+        Args:
+            parent_doc_id: 父文档ID
+
+        Returns:
+            [
+                {
+                    'chunk_id': str,
+                    'chunk_index': int,
+                    'content': str,
+                    'metadata': dict
+                },
+                ...
+            ]
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_SCORE_RULES)
+
+            result = collection.get(
+                where={"parent_doc_id": parent_doc_id},
+                include=["documents", "metadatas"]
+            )
+
+            if not result["ids"]:
+                return []
+
+            chunks = []
+            for i, chunk_id in enumerate(result["ids"]):
+                metadata = result["metadatas"][i] if result["metadatas"] else {}
+                chunks.append({
+                    "chunk_id": chunk_id,
+                    "chunk_index": metadata.get("chunk_index", i),
+                    "content": result["documents"][i] if result["documents"] else "",
+                    "metadata": metadata
+                })
+
+            chunks.sort(key=lambda x: x["chunk_index"])
+            logger.info(f"获取评分文档 {parent_doc_id} 的chunks: {len(chunks)} 个")
+            return chunks
+
+        except Exception as e:
+            logger.error(f"获取评分文档 {parent_doc_id} chunks失败: {e}")
+            return []
+
+    def get_score_rules_statistics(self) -> List[dict]:
+        """
+        获取所有竞赛的评分细则统计
+
+        Returns:
+            [
+                {
+                    'competition_id': int,
+                    'document_count': int,
+                    'chunk_count': int,
+                    'documents': [
+                        {'filename': str, 'total_chunks': int},
+                        ...
+                    ]
+                },
+                ...
+            ]
+        """
+        try:
+            collection = self._chroma.get_collection(self.COLLECTION_SCORE_RULES)
+
+            result = collection.get(include=["metadatas"])
+
+            if not result["ids"]:
+                return []
+
+            # 按 competition_id 分组统计
+            stats_map = {}
+            for i, doc_id in enumerate(result["ids"]):
+                metadata = result["metadatas"][i] if result["metadatas"] else {}
+                comp_id = metadata.get("competition_id")
+                parent_doc_id = metadata.get("parent_doc_id", "")
+                filename = metadata.get("filename", "")
+                total_chunks = metadata.get("total_chunks", 0)
+
+                if comp_id is None:
+                    continue
+
+                if comp_id not in stats_map:
+                    stats_map[comp_id] = {
+                        "competition_id": comp_id,
+                        "document_count": 0,
+                        "chunk_count": 0,
+                        "documents": {},
+                    }
+
+                stats_map[comp_id]["chunk_count"] += 1
+
+                if parent_doc_id and parent_doc_id not in stats_map[comp_id]["documents"]:
+                    stats_map[comp_id]["documents"][parent_doc_id] = {
+                        "filename": filename,
+                        "total_chunks": total_chunks
+                    }
+                    stats_map[comp_id]["document_count"] += 1
+
+            statistics = []
+            for comp_id, stat in stats_map.items():
+                statistics.append({
+                    "competition_id": stat["competition_id"],
+                    "document_count": stat["document_count"],
+                    "chunk_count": stat["chunk_count"],
+                    "documents": list(stat["documents"].values())
+                })
+
+            statistics.sort(key=lambda x: x["competition_id"])
+            logger.info(f"获取评分细则统计: {len(statistics)} 个竞赛")
+            return statistics
+
+        except Exception as e:
+            logger.error(f"获取评分细则统计失败: {e}")
+            return []
 
     # ==================== 临时向量存储 ====================
 

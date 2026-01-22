@@ -15,8 +15,9 @@ from app.services.learning_path_service import learning_path_service
 from app.services.project_planning_service import project_planning_service
 from app.services.chroma_service import chroma_service
 from app.services.user_service import user_service
+from app.db import chroma_client
 from app.core.logger import get_logger
-from app.schemas.chat import ChatRequest
+from app.schemas.chat import ChatRequest, RuleReference
 from app.schemas.recommendation import RecommendRequest, RecommendResponse
 from app.schemas.analysis import (
     SkillAnalysisRequest, SkillAnalysisResponse,
@@ -24,7 +25,8 @@ from app.schemas.analysis import (
     LearningPathRequest, LearningPathResponse,
     ProjectIdeaRequest, ProjectOutlineResponse,
     ProjectDiagnosticRequest, ProjectDiagnosticResponse,
-    CompetitionAdviceRequest, CompetitionAdviceResponse
+    CompetitionAdviceRequest, CompetitionAdviceResponse,
+    MatchRequest, MatchResponse, MatchResult
 )
 
 logger = get_logger("ai_api")
@@ -40,6 +42,7 @@ class ChatResponse(BaseModel):
     history: Optional[List[dict]] = None
     profile_used: str = "false"  # "true" | "false" | "error"
     rules_used: bool = False  # 是否使用了规则检索
+    rule_references: Optional[List[RuleReference]] = None  # 参考规则片段
     error_msg: Optional[str] = None
 
 
@@ -129,6 +132,7 @@ async def chat_with_ai(req: ChatRequest):
             history=result["history"],
             profile_used=result["profile_used"],
             rules_used=result.get("rules_used", False),
+            rule_references=result.get("rule_references"),
             error_msg=result.get("error_msg")
         )
 
@@ -212,6 +216,7 @@ async def recommend_competitions(req: RecommendRequest):
         result = await recommendation_service.recommend(
             user_profile=user_profile,
             skills=req.skills,
+            level=req.level,
             top_k=req.top_k
         )
 
@@ -561,3 +566,94 @@ async def get_competition_advice(req: CompetitionAdviceRequest):
         raise HTTPException(status_code=500, detail=f"竞赛建议服务异常: {str(e)}")
     finally:
         log.info("=" * 25 + "COMPETITION ADVICE REQUEST END" + "=" * 25)
+
+
+# ==================== 匹配度计算接口 ====================
+
+@router.post("/match", response_model=MatchResponse, summary="计算匹配度")
+async def calculate_match_score(req: MatchRequest):
+    """
+    计算匹配度（余弦相似度）
+
+    核心原理：使用 Embedding 模型将文本向量化，计算余弦相似度
+
+    场景1 - 用户看团队列表:
+      - source_description: 用户的技能描述（如 "擅长Java，熟悉数据结构"）
+      - targets: 各团队的需求描述列表
+
+    场景2 - 队长看申请人列表:
+      - source_description: 团队的需求描述（如 "需要机器学习，算法选手"）
+      - targets: 申请人的技能描述列表
+
+    返回：
+    - results: 匹配结果列表，按分数降序排列
+      - id: 目标项ID
+      - score: 匹配度分数 0-100
+      - similarity: 原始余弦相似度 -1到1
+    """
+    log = logger.getChild("match")
+    log.info("=" * 25 + "MATCH REQUEST" + "=" * 25)
+
+    try:
+        log.info(f"匹配度计算请求: source_len={len(req.source_description)}, targets_count={len(req.targets)}")
+
+        if not req.targets:
+            return MatchResponse(
+                success=True,
+                results=[],
+                error_msg=None
+            )
+
+        # 提取目标描述文本列表
+        target_texts = [item.description for item in req.targets]
+        target_ids = [item.id for item in req.targets]
+
+        # 计算余弦相似度
+        similarities = chroma_client.compute_cosine_similarity(
+            source_text=req.source_description,
+            target_texts=target_texts
+        )
+
+        # 构建结果列表
+        # 分数映射说明：
+        # 语义模型特性：无关文本的相似度通常也在 0.6-0.8 区间（基线噪声）
+        # 真正相关的文本相似度应该在 0.8+ 以上
+        # 设置基线阈值 baseline=0.75，低于此值认为不匹配（得分0）
+        # 高匹配阈值 high=0.95，高于此值认为完全匹配（得分100）
+        BASELINE = 0.7  # 基线阈值（低于此值得分为0）
+        HIGH = 0.92      # 高匹配阈值（高于此值得分为100）
+
+        results = []
+        for i, (target_id, similarity) in enumerate(zip(target_ids, similarities)):
+            # 将余弦相似度映射到匹配度分数 [0, 100]
+            if similarity <= BASELINE:
+                score = 0.0
+            elif similarity >= HIGH:
+                score = 100.0
+            else:
+                score = (similarity - BASELINE) / (HIGH - BASELINE) * 100
+            score = round(score, 2)
+
+            results.append(MatchResult(
+                id=target_id,
+                score=score,
+                similarity=round(similarity, 4)
+            ))
+
+        # 按分数降序排序
+        results.sort(key=lambda x: x.score, reverse=True)
+
+        log.info(f"匹配度计算完成: results_count={len(results)}, "
+                f"top_score={results[0].score if results else 'N/A'}")
+
+        return MatchResponse(
+            success=True,
+            results=results,
+            error_msg=None
+        )
+
+    except Exception as e:
+        log.error(f"匹配度计算失败: {e}")
+        raise HTTPException(status_code=500, detail=f"匹配度计算服务异常: {str(e)}")
+    finally:
+        log.info("=" * 25 + "MATCH REQUEST END" + "=" * 25)

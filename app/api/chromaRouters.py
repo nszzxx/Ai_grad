@@ -227,6 +227,32 @@ async def get_competitions_count():
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/competitions/sync-status", summary="检查竞赛同步状态")
+async def check_competitions_sync_status():
+    """
+    检查竞赛数据的同步状态，对比 MySQL 和向量库的差异
+
+    返回信息：
+    - mysql_count: MySQL 中的竞赛数量
+    - vector_count: 向量库中的竞赛数量
+    - synced_count: 已同步的竞赛数量
+    - missing_in_vector: MySQL 有但向量库没有的竞赛 ID 列表
+    - extra_in_vector: 向量库有但 MySQL 没有的竞赛 ID 列表
+    - is_synced: 是否完全同步
+    - missing_competitions: 缺失竞赛的详细信息（包含 ID 和标题）
+    """
+    try:
+        status = chroma_service.check_competitions_sync_status()
+        return {
+            "success": True,
+            "message": "同步完成" if status["is_synced"] else f"存在 {len(status['missing_in_vector'])} 条未同步的竞赛",
+            "data": status
+        }
+    except Exception as e:
+        logger.error(f"检查竞赛同步状态失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.delete("/competitions/clear", summary="清空竞赛向量数据")
 async def clear_competitions():
     """清空竞赛集合中的所有数据"""
@@ -439,6 +465,83 @@ async def get_competition_rules_count(competition_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/rules/competition/{competition_id}/documents", summary="获取竞赛规则文档列表")
+async def get_competition_rule_documents(competition_id: int):
+    """
+    获取指定竞赛的规则文档列表（按源文件分组）
+
+    返回信息：
+    - parent_doc_id: 父文档ID
+    - filename: 文件名
+    - file_type: 文件类型
+    - file_size: 文件大小
+    - total_chunks: 切分的chunk数量
+    - original_path: 原始路径
+    - source: 来源
+    """
+    try:
+        documents = chroma_service.get_competition_rule_documents(competition_id)
+        return {
+            "success": True,
+            "competition_id": competition_id,
+            "count": len(documents),
+            "data": documents
+        }
+
+    except Exception as e:
+        logger.error(f"获取竞赛规则文档列表失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/rules/statistics", summary="获取规则文档统计")
+async def get_rules_statistics():
+    """
+    获取所有竞赛的规则文档统计信息
+
+    返回每个竞赛的：
+    - competition_id: 竞赛ID
+    - document_count: 源文件数量
+    - chunk_count: chunk总数
+    - documents: 文档列表（文件名和chunk数）
+    """
+    try:
+        statistics = chroma_service.get_rules_statistics()
+        return {
+            "success": True,
+            "count": len(statistics),
+            "data": statistics
+        }
+
+    except Exception as e:
+        logger.error(f"获取规则文档统计失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/rules/documents/{parent_doc_id}/chunks", summary="获取规则文档的chunks")
+async def get_rule_document_chunks(parent_doc_id: str):
+    """
+    获取指定规则文档的所有chunks内容
+
+    返回信息：
+    - chunk_id: chunk ID
+    - chunk_index: chunk索引
+    - content: chunk内容
+    - metadata: 元数据
+    """
+    try:
+        chunks = chroma_service.get_rule_document_chunks(parent_doc_id)
+        return {
+            "success": True,
+            "parent_doc_id": parent_doc_id,
+            "count": len(chunks),
+            "data": chunks
+        }
+
+    except Exception as e:
+        logger.error(f"获取规则文档chunks失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/rules/count", summary="获取所有规则文档数量")
 async def get_rules_total_count():
     """获取规则文档集合的总数量"""
@@ -544,148 +647,225 @@ async def delete_competition_score_rules(competition_id: int):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/score-rules/competition/{competition_id}/documents", summary="获取竞赛评分细则文档列表")
+async def get_competition_score_rule_documents(competition_id: int):
+    """
+    获取指定竞赛的评分细则文档列表（按源文件分组）
+
+    返回信息：
+    - parent_doc_id: 父文档ID
+    - filename: 文件名
+    - file_type: 文件类型
+    - file_size: 文件大小
+    - total_chunks: 切分的chunk数量
+    - original_path: 原始路径
+    - source: 来源
+    """
+    try:
+        documents = chroma_service.get_competition_score_rule_documents(competition_id)
+        return {
+            "success": True,
+            "competition_id": competition_id,
+            "count": len(documents),
+            "data": documents
+        }
+
+    except Exception as e:
+        logger.error(f"获取竞赛评分细则文档列表失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/score-rules/statistics", summary="获取评分细则统计")
+async def get_score_rules_statistics():
+    """
+    获取所有竞赛的评分细则统计信息
+
+    返回每个竞赛的：
+    - competition_id: 竞赛ID
+    - document_count: 源文件数量
+    - chunk_count: chunk总数
+    - documents: 文档列表（文件名和chunk数）
+    """
+    try:
+        statistics = chroma_service.get_score_rules_statistics()
+        return {
+            "success": True,
+            "count": len(statistics),
+            "data": statistics
+        }
+
+    except Exception as e:
+        logger.error(f"获取评分细则统计失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/score-rules/documents/{parent_doc_id}/chunks", summary="获取评分细则文档的chunks")
+async def get_score_rule_document_chunks(parent_doc_id: str):
+    """
+    获取指定评分细则文档的所有chunks内容
+
+    返回信息：
+    - chunk_id: chunk ID
+    - chunk_index: chunk索引
+    - content: chunk内容
+    - metadata: 元数据
+    """
+    try:
+        chunks = chroma_service.get_score_rule_document_chunks(parent_doc_id)
+        return {
+            "success": True,
+            "parent_doc_id": parent_doc_id,
+            "count": len(chunks),
+            "data": chunks
+        }
+
+    except Exception as e:
+        logger.error(f"获取评分细则文档chunks失败: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ==================== 通用文档接口（保留旧版兼容） ====================
-
-@router.post("/documents", summary="添加单个文档")
-async def add_document(req: DocumentRequest):
-    """添加单个文档到向量库（使用 upsert 防重复）"""
-    try:
-        action = chroma_service.add_document(
-            doc_id=req.doc_id,
-            text=req.text,
-            metadata=req.metadata,
-            collection_name=req.collection_name
-        )
-        return {
-            "success": True,
-            "action": action,
-            "message": f"文档 {req.doc_id} {action}"
-        }
-    except Exception as e:
-        logger.error(f"添加文档失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.post("/documents/batch", summary="批量添加文档")
-async def add_documents_batch(req: BatchDocumentRequest):
-    """批量添加文档（使用 upsert 防重复）"""
-    try:
-        if len(req.ids) != len(req.texts):
-            raise HTTPException(status_code=400, detail="ids 和 texts 长度必须相同")
-
-        result = chroma_service.add_documents_batch(
-            ids=req.ids,
-            texts=req.texts,
-            metadatas=req.metadatas,
-            collection_name=req.collection_name
-        )
-        return {
-            "success": True,
-            "message": f"新增 {result['inserted']}, 更新 {result['updated']}",
-            "data": result
-        }
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"批量添加文档失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/documents/{doc_id}", summary="获取单个文档")
-async def get_document(doc_id: str, collection_name: str = Query("default")):
-    """获取单个文档"""
-    try:
-        doc = chroma_service.get_document(doc_id, collection_name)
-        if doc:
-            return {"success": True, "data": doc}
-        raise HTTPException(status_code=404, detail=f"文档 {doc_id} 不存在")
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"获取文档失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.put("/documents", summary="更新单个文档")
-async def update_document(req: DocumentUpdateRequest):
-    """更新单个文档"""
-    try:
-        if req.text is None and req.metadata is None:
-            raise HTTPException(status_code=400, detail="text 和 metadata 不能同时为空")
-
-        result = chroma_service.update_document(
-            doc_id=req.doc_id,
-            text=req.text,
-            metadata=req.metadata,
-            collection_name=req.collection_name
-        )
-        if result:
-            return {"success": True, "message": f"文档 {req.doc_id} 更新成功"}
-        raise HTTPException(status_code=404, detail=f"文档 {req.doc_id} 不存在")
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.error(f"更新文档失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.delete("/documents/{doc_id}", summary="删除单个文档")
-async def delete_document(doc_id: str, collection_name: str = Query("default")):
-    """删除单个文档"""
-    try:
-        result = chroma_service.delete_document(doc_id, collection_name)
-        return {
-            "success": result,
-            "message": f"文档 {doc_id} 已删除" if result else f"文档 {doc_id} 不存在"
-        }
-    except Exception as e:
-        logger.error(f"删除文档失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.delete("/documents/batch", summary="批量删除文档")
-async def delete_documents_batch(req: BatchDeleteRequest):
-    """批量删除文档"""
-    try:
-        count = chroma_service.delete_documents_batch(req.doc_ids, req.collection_name)
-        return {
-            "success": True,
-            "message": f"成功删除 {count} 个文档",
-            "deleted_count": count
-        }
-    except Exception as e:
-        logger.error(f"批量删除文档失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.post("/documents/search", summary="向量搜索")
-async def search_documents(req: SearchRequest):
-    """向量相似度搜索"""
-    try:
-        results = chroma_service.search_similar(
-            query=req.query,
-            n_results=req.n_results,
-            collection_name=req.collection_name
-        )
-        return {
-            "success": True,
-            "count": len(results),
-            "data": results
-        }
-    except Exception as e:
-        logger.error(f"搜索文档失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.get("/documents/exists/{doc_id}", summary="检查文档是否存在")
-async def check_document_exists(doc_id: str, collection_name: str = Query("default")):
-    """检查文档是否存在"""
-    try:
-        exists = chroma_service.exists(doc_id, collection_name)
-        return {"success": True, "exists": exists}
-    except Exception as e:
-        logger.error(f"检查文档存在失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+#
+# @router.post("/documents", summary="添加单个文档")
+# async def add_document(req: DocumentRequest):
+#     """添加单个文档到向量库（使用 upsert 防重复）"""
+#     try:
+#         action = chroma_service.add_document(
+#             doc_id=req.doc_id,
+#             text=req.text,
+#             metadata=req.metadata,
+#             collection_name=req.collection_name
+#         )
+#         return {
+#             "success": True,
+#             "action": action,
+#             "message": f"文档 {req.doc_id} {action}"
+#         }
+#     except Exception as e:
+#         logger.error(f"添加文档失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+#
+#
+# @router.post("/documents/batch", summary="批量添加文档")
+# async def add_documents_batch(req: BatchDocumentRequest):
+#     """批量添加文档（使用 upsert 防重复）"""
+#     try:
+#         if len(req.ids) != len(req.texts):
+#             raise HTTPException(status_code=400, detail="ids 和 texts 长度必须相同")
+#
+#         result = chroma_service.add_documents_batch(
+#             ids=req.ids,
+#             texts=req.texts,
+#             metadatas=req.metadatas,
+#             collection_name=req.collection_name
+#         )
+#         return {
+#             "success": True,
+#             "message": f"新增 {result['inserted']}, 更新 {result['updated']}",
+#             "data": result
+#         }
+#     except HTTPException:
+#         raise
+#     except Exception as e:
+#         logger.error(f"批量添加文档失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+#
+#
+# @router.get("/documents/{doc_id}", summary="获取单个文档")
+# async def get_document(doc_id: str, collection_name: str = Query("default")):
+#     """获取单个文档"""
+#     try:
+#         doc = chroma_service.get_document(doc_id, collection_name)
+#         if doc:
+#             return {"success": True, "data": doc}
+#         raise HTTPException(status_code=404, detail=f"文档 {doc_id} 不存在")
+#     except HTTPException:
+#         raise
+#     except Exception as e:
+#         logger.error(f"获取文档失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+#
+#
+# @router.put("/documents", summary="更新单个文档")
+# async def update_document(req: DocumentUpdateRequest):
+#     """更新单个文档"""
+#     try:
+#         if req.text is None and req.metadata is None:
+#             raise HTTPException(status_code=400, detail="text 和 metadata 不能同时为空")
+#
+#         result = chroma_service.update_document(
+#             doc_id=req.doc_id,
+#             text=req.text,
+#             metadata=req.metadata,
+#             collection_name=req.collection_name
+#         )
+#         if result:
+#             return {"success": True, "message": f"文档 {req.doc_id} 更新成功"}
+#         raise HTTPException(status_code=404, detail=f"文档 {req.doc_id} 不存在")
+#     except HTTPException:
+#         raise
+#     except Exception as e:
+#         logger.error(f"更新文档失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+#
+#
+# @router.delete("/documents/{doc_id}", summary="删除单个文档")
+# async def delete_document(doc_id: str, collection_name: str = Query("default")):
+#     """删除单个文档"""
+#     try:
+#         result = chroma_service.delete_document(doc_id, collection_name)
+#         return {
+#             "success": result,
+#             "message": f"文档 {doc_id} 已删除" if result else f"文档 {doc_id} 不存在"
+#         }
+#     except Exception as e:
+#         logger.error(f"删除文档失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+#
+#
+# @router.delete("/documents/batch", summary="批量删除文档")
+# async def delete_documents_batch(req: BatchDeleteRequest):
+#     """批量删除文档"""
+#     try:
+#         count = chroma_service.delete_documents_batch(req.doc_ids, req.collection_name)
+#         return {
+#             "success": True,
+#             "message": f"成功删除 {count} 个文档",
+#             "deleted_count": count
+#         }
+#     except Exception as e:
+#         logger.error(f"批量删除文档失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+#
+#
+# @router.post("/documents/search", summary="向量搜索")
+# async def search_documents(req: SearchRequest):
+#     """向量相似度搜索"""
+#     try:
+#         results = chroma_service.search_similar(
+#             query=req.query,
+#             n_results=req.n_results,
+#             collection_name=req.collection_name
+#         )
+#         return {
+#             "success": True,
+#             "count": len(results),
+#             "data": results
+#         }
+#     except Exception as e:
+#         logger.error(f"搜索文档失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
+#
+#
+# @router.get("/documents/exists/{doc_id}", summary="检查文档是否存在")
+# async def check_document_exists(doc_id: str, collection_name: str = Query("default")):
+#     """检查文档是否存在"""
+#     try:
+#         exists = chroma_service.exists(doc_id, collection_name)
+#         return {"success": True, "exists": exists}
+#     except Exception as e:
+#         logger.error(f"检查文档存在失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
 # ==================== 集合管理接口 ====================
@@ -723,26 +903,26 @@ async def get_collection_info(collection_name: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/collections/{collection_name}/count", summary="获取集合文档数量")
-async def get_collection_count(collection_name: str):
-    """获取指定集合的文档数量"""
-    try:
-        count = chroma_service.get_collection_count(collection_name)
-        return {"success": True, "count": count}
-    except Exception as e:
-        logger.error(f"获取集合数量失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# @router.get("/collections/{collection_name}/count", summary="获取集合文档数量")
+# async def get_collection_count(collection_name: str):
+#     """获取指定集合的文档数量"""
+#     try:
+#         count = chroma_service.get_collection_count(collection_name)
+#         return {"success": True, "count": count}
+#     except Exception as e:
+#         logger.error(f"获取集合数量失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/collections/{collection_name}/ids", summary="列出集合所有文档ID")
-async def list_collection_ids(collection_name: str, limit: int = Query(None, ge=1, le=1000)):
-    """列出指定集合的所有文档ID"""
-    try:
-        ids = chroma_service.list_all_ids(collection_name, limit)
-        return {"success": True, "count": len(ids), "ids": ids}
-    except Exception as e:
-        logger.error(f"列出文档ID失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+# @router.get("/collections/{collection_name}/ids", summary="列出集合所有文档ID")
+# async def list_collection_ids(collection_name: str, limit: int = Query(None, ge=1, le=1000)):
+#     """列出指定集合的所有文档ID"""
+#     try:
+#         ids = chroma_service.list_all_ids(collection_name, limit)
+#         return {"success": True, "count": len(ids), "ids": ids}
+#     except Exception as e:
+#         logger.error(f"列出文档ID失败: {e}")
+#         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.delete("/collections/{collection_name}/clear", summary="清空集合")

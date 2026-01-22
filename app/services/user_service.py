@@ -2,6 +2,7 @@
 用户画像服务
 负责用户画像构建、缓存管理、意图分析等
 """
+import asyncio
 import json
 import hashlib
 from typing import Optional
@@ -64,11 +65,16 @@ class UserService:
         return hashlib.md5(json.dumps(data, sort_keys=True).encode()).hexdigest()[:16]
 
     def _get_cache(self, key: str) -> Optional[str]:
-        """从 Redis 获取缓存"""
+        """从 Redis 获取缓存（统一返回 str）"""
         try:
-            return redis_client.get(key)
+            value = redis_client.get(key)
+            if value is None:
+                return None
+            if isinstance(value, (bytes, bytearray)):
+                return value.decode("utf-8", errors="ignore")
+            return str(value)
         except Exception as e:
-            (logger.error(f"获取缓存失败: {e}"))
+            logger.error(f"获取缓存失败: {e}")
             return None
 
     def _set_cache(self, key: str, value: str, ttl: int = None):
@@ -156,9 +162,11 @@ class UserService:
         profile_text = self._build_profile_text(profile)
 
         # 并行执行三个分析任务
-        analysis_result = await self._run_analysis(profile_text)
-        summary_result = await self._run_summary(profile_text)
-        intent_result = await self._run_intent_extract(profile_text)
+        analysis_result, summary_result, intent_result = await asyncio.gather(
+            self._run_analysis(profile_text),
+            self._run_summary(profile_text),
+            self._run_intent_extract(profile_text),
+        )
 
         # 更新缓存
         self._set_cache(self._cache_key(user_id, "hash"), current_hash, self.CACHE_TTL_PROFILE)
@@ -184,6 +192,7 @@ class UserService:
             ("user", profile_text)
         ])
         chain = prompt | self.llm
+        logger.info(f"请求地址={getattr(self.llm, 'base_url', None) or getattr(self.llm, 'endpoint', None) or getattr(self.llm, 'api_base', None)}，请求内容={profile_text}")
         result = await chain.ainvoke({})
         logger.info("画像分析完成")
         return result.content
@@ -277,9 +286,10 @@ class UserService:
         for suffix in suffixes:
             key = self._cache_key(user_id, suffix)
             value = self._get_cache(key)
+            logger.info(f"缓存检查 - Key: {key}, Exists: {value}")
             status[suffix] = {
                 "exists": value is not None,
-                "preview": value[:50] + "..." if value and len(value) > 50 else value
+                "preview": (value[:50] + "...") if value and len(value) > 50 else (value or "")
             }
         return status
 

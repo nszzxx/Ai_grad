@@ -8,7 +8,7 @@ from datetime import datetime
 from typing import List, Optional
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from app.db import redis_client
-from app.schemas.chat import ChatPair
+from app.schemas.chat import ChatPair, RuleReference
 from app.core.logger import get_logger
 from app.services.user_service import user_service
 from app.services.chroma_service import chroma_service
@@ -26,6 +26,7 @@ class RuleSearchResult:
     error_msg: Optional[str] = None    # 错误信息
     competition_id: Optional[int] = None
     competition_name: Optional[str] = None
+    raw_results: Optional[List[dict]] = None  # 原始检索结果，用于生成参考片段
 
 
 class AIService:
@@ -220,7 +221,8 @@ class AIService:
             context=context,
             success=True,
             competition_id=competition_id,
-            competition_name=competition_name
+            competition_name=competition_name,
+            raw_results=final_results  # 保存原始检索结果
         )
 
     def _format_rules_context(self, results: list) -> str:
@@ -238,6 +240,19 @@ class AIService:
 
         parts.append("请根据以上规则信息回答用户的问题。如果规则信息不足以回答，请如实告知。")
         return "\n".join(parts)
+
+    def _build_rule_references(self, raw_results: List[dict]) -> List[RuleReference]:
+        """将原始检索结果转换为 RuleReference 列表"""
+        references = []
+        for result in raw_results:
+            metadata = result.get('metadata', {})
+            references.append(RuleReference(
+                filename=metadata.get('filename', '未知文档'),
+                chunk_index=metadata.get('chunk_index', 0),
+                total_chunks=metadata.get('total_chunks', 1),
+                rerank_score=result.get('rerank_score')
+            ))
+        return references
 
     # ==================== 消息构建 ====================
 
@@ -371,6 +386,7 @@ class AIService:
         rules_context = None
         rules_used = False
         search_error = None
+        raw_results = None  # 保存原始检索结果
 
         if enable_rules:
             logger.info(f"【规则检索流水线】开始处理: {message[:50]}...")
@@ -380,6 +396,7 @@ class AIService:
             if search_result.success:
                 rules_context = search_result.context
                 rules_used = True
+                raw_results = search_result.raw_results  # 保存原始结果
                 logger.info("规则检索成功")
             else:
                 search_error = search_result.error_msg
@@ -395,12 +412,12 @@ class AIService:
         if stream:
             return await self._chat_stream(
                 user_id, group_id, message, messages, history,
-                enable_rules, rules_used, search_error
+                enable_rules, rules_used, search_error, raw_results
             )
         else:
             return await self._chat_sync(
                 user_id, group_id, message, messages, history,
-                enable_rules, rules_used, search_error
+                enable_rules, rules_used, search_error, raw_results
             )
 
     async def _chat_sync(
@@ -412,7 +429,8 @@ class AIService:
         history: List[ChatPair],
         enable_rules: bool,
         rules_used: bool,
-        search_error: Optional[str]
+        search_error: Optional[str],
+        raw_results: Optional[List[dict]] = None
     ) -> dict:
         """同步聊天（非流式）"""
         response = await self.llm.ainvoke(messages)
@@ -431,6 +449,10 @@ class AIService:
             "rules_used": rules_used
         }
 
+        # 如果规则检索成功，添加参考规则片段
+        if rules_used and raw_results:
+            result["rule_references"] = [ref.model_dump() for ref in self._build_rule_references(raw_results)]
+
         # 如果规则检索失败，将错误信息附加到回复
         if enable_rules and search_error and not rules_used:
             result["error_msg"] = search_error
@@ -446,7 +468,8 @@ class AIService:
         history: List[ChatPair],
         enable_rules: bool,
         rules_used: bool,
-        search_error: Optional[str]
+        search_error: Optional[str],
+        raw_results: Optional[List[dict]] = None
     ):
         """
         流式聊天生成器
@@ -476,14 +499,20 @@ class AIService:
             history.append(new_pair)
             self.save_history_to_cache(user_id, group_id, history)
 
-            # 返回完成信号
-            yield {
+            # 构建完成信号
+            done_data = {
                 "type": "done",
                 "reply": reply,
                 "history": [pair.model_dump() for pair in history[-self.MAX_HISTORY_ROUNDS:]],
                 "profile_used": "false" if enable_rules else "true",
                 "rules_used": rules_used
             }
+
+            # 如果规则检索成功，添加参考规则片段
+            if rules_used and raw_results:
+                done_data["rule_references"] = [ref.model_dump() for ref in self._build_rule_references(raw_results)]
+
+            yield done_data
 
         except Exception as e:
             logger.error(f"流式输出异常: {e}")

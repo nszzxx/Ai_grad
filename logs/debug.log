@@ -55,3 +55,265 @@
 2025-12-18 16:31:40 | DEBUG    | reranker_service |   结果 1: idx=0, score=0.9898
 2025-12-18 16:31:40 | DEBUG    | reranker_service |   结果 2: idx=1, score=0.0113
 2025-12-18 16:31:40 | DEBUG    | reranker_service |   结果 3: idx=2, score=0.0098
+2025-12-23 09:21:10 | DEBUG    | chroma | 搜索相似文档: query=算法逻辑..., n_results=5
+2025-12-23 09:29:15 | DEBUG    | chroma | 搜索相似文档: query=算法逻辑..., n_results=5
+2025-12-23 09:30:34 | DEBUG    | chroma | 搜索相似文档: query=算法逻辑..., n_results=5
+2025-12-23 09:31:05 | DEBUG    | chroma | 搜索相似文档: query=编程算法逻辑..., n_results=5
+2025-12-23 11:19:42 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 个人赛 编程竞赛 Web开发..., n_results=10
+2025-12-23 11:19:42 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 11:28:41 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 个人赛 编程竞赛 Web开发..., n_results=10
+2025-12-23 11:28:41 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 11:32:44 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 个人赛 编程竞赛 Web开发..., n_results=10
+2025-12-23 11:32:44 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 11:33:35 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 个人赛 编程竞赛 Web开发..., n_results=10
+2025-12-23 11:33:35 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 11:36:29 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 个人赛 编程竞赛 Web开发..., n_results=10
+2025-12-23 11:36:29 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 11:41:01 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 个人赛 编程竞赛 Web开发..., n_results=10
+2025-12-23 11:41:01 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 11:42:15 | DEBUG    | chroma | 搜索相似文档: query=编程算法逻辑..., n_results=5
+2025-12-23 11:45:47 | DEBUG    | chroma | 搜索相似文档: query=编程算法逻辑..., n_results=5
+2025-12-23 11:45:56 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 个人赛 编程竞赛 Web开发..., n_results=10
+2025-12-23 11:45:56 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 13:57:42 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库 算法竞赛..., n_results=10
+2025-12-23 13:57:42 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 16:55:07 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库..., n_results=10
+2025-12-23 16:55:07 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 17:08:25 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库..., n_results=10
+2025-12-23 17:08:25 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 17:11:34 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库..., n_results=10
+2025-12-23 17:11:34 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 17:11:40 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库..., n_results=10
+2025-12-23 17:11:40 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 17:14:10 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库..., n_results=10
+2025-12-23 17:14:10 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-23 17:14:15 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python Web开发 数据库..., n_results=10
+2025-12-23 17:14:16 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-24 09:12:39 | DEBUG    | chroma | 搜索相似文档: query=编程逻辑算法..., n_results=5
+2025-12-24 09:13:18 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-24 09:17:02 | DEBUG    | chroma | 搜索相似文档: query=算法 编程 逻辑..., n_results=5
+2025-12-24 09:30:07 | DEBUG    | user_service | 用户 6 画像命中缓存
+2025-12-24 09:34:28 | DEBUG    | user_service | 用户 6 画像命中缓存
+2025-12-24 09:37:01 | DEBUG    | user_service | 用户 6 画像命中缓存
+2025-12-24 09:37:10 | DEBUG    | user_service | 用户 6 画像命中缓存
+2025-12-24 09:37:21 | DEBUG    | user_service | 用户 6 画像命中缓存
+2025-12-24 10:47:20 | DEBUG    | user_service | 用户 6 画像命中缓存
+2025-12-24 10:53:39 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 竞赛 新手 JavaScript..., n_results=10
+2025-12-24 10:53:39 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-24 11:07:41 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=1
+2025-12-24 11:21:01 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-24 11:21:08 | DEBUG    | reranker_service |   结果 1: idx=17, score=0.9891
+2025-12-24 11:21:08 | DEBUG    | reranker_service |   结果 2: idx=18, score=0.9891
+2025-12-24 11:21:08 | DEBUG    | reranker_service |   结果 3: idx=19, score=0.9891
+2025-12-24 11:22:01 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-24 11:22:06 | DEBUG    | reranker_service |   结果 1: idx=17, score=0.9891
+2025-12-24 11:22:06 | DEBUG    | reranker_service |   结果 2: idx=18, score=0.9891
+2025-12-24 11:22:06 | DEBUG    | reranker_service |   结果 3: idx=19, score=0.9891
+2025-12-24 11:22:42 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-24 11:22:45 | DEBUG    | reranker_service |   结果 1: idx=1, score=0.9892
+2025-12-24 11:22:45 | DEBUG    | reranker_service |   结果 2: idx=6, score=0.5810
+2025-12-24 11:22:45 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.2134
+2025-12-24 11:24:12 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-24 11:24:14 | DEBUG    | reranker_service |   结果 1: idx=2, score=0.9754
+2025-12-24 11:24:14 | DEBUG    | reranker_service |   结果 2: idx=6, score=0.5810
+2025-12-24 11:24:14 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.2134
+2025-12-24 11:43:23 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=1
+2025-12-24 17:17:38 | DEBUG    | chroma | 搜索相似文档: query=算法 编程 逻辑..., n_results=5
+2025-12-25 11:45:45 | DEBUG    | chroma | 搜索相似文档: query=算法 编程 逻辑..., n_results=5
+2025-12-25 13:52:15 | DEBUG    | chroma | 搜索相似文档: query=逻辑..., n_results=5
+2025-12-25 13:52:51 | DEBUG    | chroma | 搜索相似文档: query=编程..., n_results=5
+2025-12-25 13:53:02 | DEBUG    | chroma | 搜索相似文档: query=编程..., n_results=5
+2025-12-25 13:55:28 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 13:56:12 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 13:56:48 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 13:57:28 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 13:58:20 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 13:59:32 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 13:59:46 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:02:24 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:02:52 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 14:03:51 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 14:04:34 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:06:12 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:07:10 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:08:40 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:13:51 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:14:26 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:14:33 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 14:19:32 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:19:34 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 14:25:50 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:26:29 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:26:50 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:27:40 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:27:52 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:27:53 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 14:27:54 | DEBUG    | chroma | 搜索相似文档: query=编程..., n_results=5
+2025-12-25 14:28:00 | DEBUG    | chroma | 搜索相似文档: query=编程..., n_results=5
+2025-12-25 14:28:01 | DEBUG    | chroma | 搜索相似文档: query=创新创业..., n_results=5
+2025-12-25 14:28:02 | DEBUG    | chroma | 搜索相似文档: query=机器人..., n_results=5
+2025-12-25 14:28:18 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:29:26 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:29:53 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:30:08 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:30:56 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:31:38 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:31:38 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:32:46 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 14:33:28 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:33:52 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:36:10 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 14:40:56 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:43:09 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:51:55 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 14:57:08 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 14:58:17 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 15:04:33 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 15:05:50 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 15:07:03 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 15:07:21 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 15:07:32 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 15:30:05 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 15:33:38 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 编程竞赛 Web开发 数据库..., n_results=10
+2025-12-25 15:33:38 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-25 15:43:32 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 编程竞赛 Web开发 数据库..., n_results=10
+2025-12-25 15:43:32 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-25 15:43:52 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 编程竞赛 Web开发 数据库..., n_results=10
+2025-12-25 15:43:52 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-25 15:47:14 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 编程竞赛 Web开发 数据库..., n_results=10
+2025-12-25 15:47:14 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-25 15:56:45 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 15:57:06 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2025-12-25 16:58:24 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 16:58:36 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2025-12-25 16:58:37 | DEBUG    | chroma | 搜索相似文档: query=算法..., n_results=5
+2025-12-25 18:13:15 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 编程竞赛 Web开发 数据科学..., n_results=10
+2025-12-25 18:13:15 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-27 14:12:17 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 算法竞赛 Web开发 数据库..., n_results=10
+2025-12-27 14:12:17 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-27 20:12:46 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-27 20:12:57 | DEBUG    | reranker_service |   结果 1: idx=2, score=0.9754
+2025-12-27 20:12:57 | DEBUG    | reranker_service |   结果 2: idx=6, score=0.5810
+2025-12-27 20:12:57 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.2134
+2025-12-27 22:48:53 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯, Python, 算法, 编程竞赛..., n_results=10
+2025-12-27 22:48:53 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-28 22:33:17 | DEBUG    | user_service | 用户 6 画像命中缓存
+2025-12-28 23:28:15 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯，编程竞赛，Python，算法，软件开发..., n_results=10
+2025-12-28 23:28:15 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2025-12-28 23:44:48 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-28 23:44:51 | DEBUG    | reranker_service |   结果 1: idx=2, score=0.9754
+2025-12-28 23:44:51 | DEBUG    | reranker_service |   结果 2: idx=6, score=0.5810
+2025-12-28 23:44:51 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.2134
+2025-12-28 23:45:37 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-28 23:45:40 | DEBUG    | reranker_service |   结果 1: idx=2, score=0.9754
+2025-12-28 23:45:40 | DEBUG    | reranker_service |   结果 2: idx=6, score=0.5810
+2025-12-28 23:45:40 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.2134
+2025-12-28 23:46:26 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2025-12-28 23:46:30 | DEBUG    | reranker_service |   结果 1: idx=3, score=0.9173
+2025-12-28 23:46:30 | DEBUG    | reranker_service |   结果 2: idx=4, score=0.9173
+2025-12-28 23:46:30 | DEBUG    | reranker_service |   结果 3: idx=5, score=0.9173
+2025-12-28 23:47:08 | DEBUG    | reranker_service |   结果 1: idx=7, score=0.9784
+2025-12-28 23:47:08 | DEBUG    | reranker_service |   结果 2: idx=0, score=0.9569
+2025-12-28 23:47:08 | DEBUG    | reranker_service |   结果 3: idx=5, score=0.9553
+2026-01-07 19:42:29 | DEBUG    | document_parser | DOCX 解析成功: E:/apps/xampp/htdocs/graduate/doc/scores/附件：中国国际大学生创新大赛（2025）评审规则.docx, 提取 11622 字符
+2026-01-07 19:48:27 | DEBUG    | document_parser | DOCX 解析成功: E:/apps/xampp/htdocs/graduate/project/b5d9bb8c-b886-4a1c-a8f4-3ba0a2e65581.docx, 提取 14273 字符
+2026-01-07 19:48:27 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 19:48:27 | DEBUG    | temp_vector_store | 创建临时向量库: temp_bf7ab52f44c1
+2026-01-07 19:48:45 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 19:49:14 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_bf7ab52f44c1
+2026-01-07 20:06:20 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\b5d9bb8c-b886-4a1c-a8f4-3ba0a2e65581.docx, 提取 14273 字符
+2026-01-07 20:06:20 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 20:06:20 | DEBUG    | temp_vector_store | 创建临时向量库: temp_900d72f52bb2
+2026-01-07 20:06:38 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 20:08:14 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_900d72f52bb2
+2026-01-07 20:09:11 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\b5d9bb8c-b886-4a1c-a8f4-3ba0a2e65581.docx, 提取 14273 字符
+2026-01-07 20:09:11 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 20:09:11 | DEBUG    | temp_vector_store | 创建临时向量库: temp_df07aada9cff
+2026-01-07 20:09:29 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 20:11:08 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_df07aada9cff
+2026-01-07 20:18:30 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\b5d9bb8c-b886-4a1c-a8f4-3ba0a2e65581.docx, 提取 14273 字符
+2026-01-07 20:18:30 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 20:18:30 | DEBUG    | temp_vector_store | 创建临时向量库: temp_5f3d81d070ed
+2026-01-07 20:18:49 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 20:19:06 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_5f3d81d070ed
+2026-01-07 20:22:30 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\b5d9bb8c-b886-4a1c-a8f4-3ba0a2e65581.docx, 提取 14273 字符
+2026-01-07 20:22:30 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 20:22:30 | DEBUG    | temp_vector_store | 创建临时向量库: temp_5d8ff07a5247
+2026-01-07 20:22:48 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 20:23:01 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_5d8ff07a5247
+2026-01-07 20:39:16 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\ce6e4815-c147-4279-b882-dcb7fdfeb8c7.docx, 提取 14273 字符
+2026-01-07 20:39:16 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 20:39:16 | DEBUG    | temp_vector_store | 创建临时向量库: temp_65fe6708a91e
+2026-01-07 20:39:34 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 20:39:49 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_65fe6708a91e
+2026-01-07 20:50:14 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\ce6e4815-c147-4279-b882-dcb7fdfeb8c7.docx, 提取 14273 字符
+2026-01-07 20:50:14 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 20:50:14 | DEBUG    | temp_vector_store | 创建临时向量库: temp_8679e155e5ab
+2026-01-07 20:50:35 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 20:50:50 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_8679e155e5ab
+2026-01-07 21:48:45 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\ce6e4815-c147-4279-b882-dcb7fdfeb8c7.docx, 提取 14273 字符
+2026-01-07 21:48:45 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 21:48:45 | DEBUG    | temp_vector_store | 创建临时向量库: temp_7b91e63f64ea
+2026-01-07 21:49:12 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 21:49:29 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_7b91e63f64ea
+2026-01-07 22:56:02 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2026-01-07 22:56:07 | DEBUG    | reranker_service |   结果 1: idx=1, score=0.9870
+2026-01-07 22:56:07 | DEBUG    | reranker_service |   结果 2: idx=9, score=0.5033
+2026-01-07 22:56:07 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.1426
+2026-01-07 22:56:49 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 Python 编程竞赛 Web开发 数据技术..., n_results=10
+2026-01-07 22:56:49 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2026-01-07 22:57:02 | DEBUG    | chroma | 搜索相似文档: query=人工智能..., n_results=5
+2026-01-07 23:26:37 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2026-01-07 23:34:12 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\ce6e4815-c147-4279-b882-dcb7fdfeb8c7.docx, 提取 14273 字符
+2026-01-07 23:34:12 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-07 23:34:12 | DEBUG    | temp_vector_store | 创建临时向量库: temp_a32d088e684b
+2026-01-07 23:34:38 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-07 23:34:54 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_a32d088e684b
+2026-01-10 17:19:52 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯，编程竞赛，Python，算法，软件开发..., n_results=10
+2026-01-10 17:19:52 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2026-01-10 17:21:54 | DEBUG    | document_parser | DOCX 解析成功: E:\apps\xampp\htdocs\graduate\project\ce6e4815-c147-4279-b882-dcb7fdfeb8c7.docx, 提取 14273 字符
+2026-01-10 17:21:54 | DEBUG    | project_splitter | 项目书切分完成: 36 个片段
+2026-01-10 17:21:54 | DEBUG    | temp_vector_store | 创建临时向量库: temp_05d1987a8438
+2026-01-10 17:22:16 | DEBUG    | temp_vector_store | 临时库添加 36 条文档
+2026-01-10 17:22:45 | DEBUG    | temp_vector_store | 临时向量库已清空: temp_05d1987a8438
+2026-01-10 17:25:06 | DEBUG    | chroma | 搜索相似文档: query=创新创业..., n_results=5
+2026-01-10 17:25:22 | DEBUG    | chroma | 搜索相似文档: query=适合新手的算法比赛..., n_results=5
+2026-01-10 17:27:28 | DEBUG    | chroma | 搜索相似文档: query=三角洲..., n_results=5
+2026-01-10 17:27:52 | DEBUG    | chroma | 搜索相似文档: query=三角洲竞赛..., n_results=5
+2026-01-12 17:19:14 | DEBUG    | chroma | 删除文档 4 成功
+2026-01-12 17:19:21 | DEBUG    | chroma | 文档 4 inserted
+2026-01-13 14:24:00 | DEBUG    | chroma | 搜索相似文档: query=蓝桥软件赛..., n_results=1
+2026-01-13 14:24:02 | DEBUG    | reranker_service |   结果 1: idx=0, score=0.9898
+2026-01-13 14:24:02 | DEBUG    | reranker_service |   结果 2: idx=1, score=0.0113
+2026-01-13 14:24:02 | DEBUG    | reranker_service |   结果 3: idx=2, score=0.0098
+2026-01-13 15:24:25 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯..., n_results=1
+2026-01-13 15:25:24 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2026-01-13 15:25:30 | DEBUG    | reranker_service |   结果 1: idx=1, score=0.9870
+2026-01-13 15:25:30 | DEBUG    | reranker_service |   结果 2: idx=9, score=0.5033
+2026-01-13 15:25:30 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.1426
+2026-01-13 15:30:29 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2026-01-13 15:30:34 | DEBUG    | reranker_service |   结果 1: idx=1, score=0.9870
+2026-01-13 15:30:34 | DEBUG    | reranker_service |   结果 2: idx=9, score=0.5033
+2026-01-13 15:30:34 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.1426
+2026-01-13 15:32:53 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2026-01-13 15:32:58 | DEBUG    | reranker_service |   结果 1: idx=1, score=0.9870
+2026-01-13 15:32:58 | DEBUG    | reranker_service |   结果 2: idx=9, score=0.5033
+2026-01-13 15:32:58 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.1426
+2026-01-13 15:44:21 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2026-01-13 15:44:25 | DEBUG    | reranker_service |   结果 1: idx=1, score=0.9870
+2026-01-13 15:44:25 | DEBUG    | reranker_service |   结果 2: idx=9, score=0.5033
+2026-01-13 15:44:25 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.1426
+2026-01-14 15:35:52 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯软件赛..., n_results=1
+2026-01-14 15:35:57 | DEBUG    | reranker_service |   结果 1: idx=1, score=0.9870
+2026-01-14 15:35:57 | DEBUG    | reranker_service |   结果 2: idx=9, score=0.5033
+2026-01-14 15:35:57 | DEBUG    | reranker_service |   结果 3: idx=10, score=0.1426
+2026-01-15 09:53:19 | DEBUG    | user_service | 用户 6 画像命中缓存
+2026-01-15 09:53:24 | DEBUG    | user_service | 用户 6 画像命中缓存
+2026-01-15 09:54:12 | DEBUG    | user_service | 用户 6 画像命中缓存
+2026-01-15 09:55:59 | DEBUG    | user_service | 用户 6 画像命中缓存
+2026-01-15 09:56:32 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 程序设计竞赛 算法与数据结构 Python编程 Java后端开发..., n_results=10
+2026-01-15 09:56:32 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2026-01-15 09:57:12 | DEBUG    | chroma | 搜索相似文档: query=数学建模..., n_results=5
+2026-01-15 10:01:42 | DEBUG    | chroma | 搜索相似文档: query=蓝桥杯 程序设计竞赛 算法与数据结构 Python编程 Java后端开发..., n_results=10
+2026-01-15 10:01:43 | DEBUG    | chroma | 搜索相似文档: query=JavaScript Javaspring mybatis MySQL python..., n_results=10
+2026-01-15 10:14:04 | DEBUG    | user_service | 用户 6 画像命中缓存

@@ -9,6 +9,14 @@ class ChatPair(BaseModel):
     created_at: Optional[str] = Field(None, description="对话创建时间")
 
 
+class RuleReference(BaseModel):
+    """规则参考片段：用于展示规则来源"""
+    filename: str = Field(..., description="文档名称")
+    chunk_index: int = Field(..., description="片段索引（从0开始）")
+    total_chunks: int = Field(..., description="该文档的总片段数")
+    rerank_score: Optional[float] = Field(None, description="重排序分数（越高越相关）")
+
+
 class ChatRequest(BaseModel):
     """聊天请求"""
     user_id: int = Field(..., description="用户ID，用于获取画像和历史记录")

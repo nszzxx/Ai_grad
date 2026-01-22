@@ -201,6 +201,7 @@ class LearningPathService:
         ]
 
         try:
+            logger.info(f"调用--{messages}")
             logger.info("【学习路径】调用 LLM 生成计划...")
             result = await self.llm.ainvoke(messages)
             path_data = self._extract_json(result.content)

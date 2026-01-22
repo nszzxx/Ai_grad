@@ -180,7 +180,7 @@ class ProjectDiagnosticRequest(BaseModel):
 class EvaluationPoint(BaseModel):
     """评审考察点"""
     name: str = Field(..., description="考察点名称")
-    weight: int = Field(default=0, description="权重占比")
+    weight: float = Field(default=0, description="权重占比")
     description: str = Field(default="", description="评分标准")
 
 
@@ -188,14 +188,14 @@ class PointEvidence(BaseModel):
     """考察点证据"""
     point_name: str = Field(..., description="考察点名称")
     evidence: List[str] = Field(default=[], description="项目书中的相关证据")
-    score: int = Field(default=0, ge=0, le=100, description="得分 0-100")
+    score: float = Field(default=0, ge=0, le=100, description="得分 0-100")
     comment: str = Field(default="", description="评审意见")
 
 
 class DiagnosticResult(BaseModel):
     """诊断结果"""
     competition_name: str = Field(default="", description="竞赛名称")
-    total_score: int = Field(default=0, ge=0, le=100, description="综合得分")
+    total_score: float = Field(default=0, ge=0, le=100, description="综合得分")
     evaluation_points: List[PointEvidence] = Field(default=[], description="各考察点评审")
     strengths: List[str] = Field(default=[], description="项目亮点")
     weaknesses: List[str] = Field(default=[], description="待改进项")
@@ -222,4 +222,42 @@ class CompetitionAdviceResponse(BaseModel):
     success: bool = Field(default=True)
     advice: str = Field(default="", description="竞赛建议文本")
     competition_name: str = Field(default="", description="竞赛名称")
+    error_msg: Optional[str] = Field(None, description="错误信息")
+
+
+# ==================== 匹配度计算 ====================
+
+class MatchItem(BaseModel):
+    """待匹配的单个项目（团队需求或用户技能）"""
+    id: int = Field(..., description="项目ID（团队ID或用户ID）")
+    description: str = Field(..., description="描述文本（团队需求描述或用户技能描述）")
+
+
+class MatchRequest(BaseModel):
+    """
+    匹配度计算请求
+
+    场景1 - 用户看团队列表:
+      source_description = 用户技能描述（如"擅长Java，熟悉数据结构"）
+      targets = 团队需求描述列表
+
+    场景2 - 队长看申请人列表:
+      source_description = 团队需求描述（如"需要机器学习，算法选手"）
+      targets = 申请人技能描述列表
+    """
+    source_description: str = Field(..., description="源向量描述（用户技能或团队需求）")
+    targets: List[MatchItem] = Field(..., description="目标项列表")
+
+
+class MatchResult(BaseModel):
+    """单个匹配结果"""
+    id: int = Field(..., description="目标项ID")
+    score: float = Field(..., ge=0, le=100, description="匹配度分数 0-100")
+    similarity: float = Field(..., ge=-1, le=1, description="原始余弦相似度 -1到1")
+
+
+class MatchResponse(BaseModel):
+    """匹配度计算响应"""
+    success: bool = Field(default=True)
+    results: List[MatchResult] = Field(default=[], description="匹配结果列表（按分数降序）")
     error_msg: Optional[str] = Field(None, description="错误信息")

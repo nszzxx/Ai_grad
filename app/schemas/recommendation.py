@@ -7,6 +7,7 @@ class RecommendRequest(BaseModel):
     """智能推荐请求"""
     user_id: int = Field(..., description="用户ID")
     skills: List[str] = Field(default=[], description="用户技能列表")
+    level: Optional[str] = Field(None, description="用户水平（初级、中级、高级）")
     top_k: int = Field(default=5, ge=1, le=10, description="返回推荐数量")
 
 
@@ -20,8 +21,10 @@ class MatchScores(BaseModel):
 class RecommendItem(BaseModel):
     """单个推荐竞赛"""
     competition_id: int = Field(..., description="竞赛ID")
+    title: str = Field(..., description="竞赛标题")
     scores: MatchScores = Field(..., description="匹配度评分")
     overall_score: int = Field(default=0, description="综合评分")
+    difficulty: str = Field(default="", description="竞赛难度")
     comment: str = Field(default="", description="推荐点评")
 
 

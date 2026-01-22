@@ -57,53 +57,6 @@ async def analyze_user_profile(req: ProfileAnalysisRequest):
         log.error(f"画像分析失败: {e}")
         raise HTTPException(status_code=500, detail=f"画像分析失败: {str(e)}")
 
-
-@router.post("/summary", summary="获取用户一句话摘要")
-async def get_user_summary(req: ProfileRequest):
-    """获取用户一句话摘要"""
-    log = logger.getChild("summary")
-    try:
-        if not user_service.llm:
-            user_service.set_llm(llm_client.client)
-
-        log.info(f"用户 {req.profile.user_id} 请求摘要")
-        summary = await user_service.get_user_summary(req.profile)
-        log.info(f"用户 {req.profile.user_id} 摘要获取成功")
-
-        return {
-            "success": True,
-            "user_id": req.profile.user_id,
-            "summary": summary
-        }
-
-    except Exception as e:
-        log.error(f"获取摘要失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@router.post("/intent", summary="获取用户意图关键词")
-async def get_user_intent(req: ProfileRequest):
-    """获取用户意图关键词"""
-    log = logger.getChild("intent")
-    try:
-        if not user_service.llm:
-            user_service.set_llm(llm_client.client)
-
-        log.info(f"用户 {req.profile.user_id} 请求意图关键词")
-        keywords = await user_service.get_intent_keywords(req.profile)
-        log.info(f"用户 {req.profile.user_id} 意图关键词获取成功")
-
-        return {
-            "success": True,
-            "user_id": req.profile.user_id,
-            "intent_keywords": keywords
-        }
-
-    except Exception as e:
-        log.error(f"获取意图关键词失败: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-
 @router.get("/cache/{user_id}", summary="获取用户缓存状态")
 async def get_user_cache_status(user_id: int):
     """获取用户画像缓存状态"""
